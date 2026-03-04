@@ -1,35 +1,43 @@
-# Reference: https://medium.com/@sauravkumarsct/integrate-keycloak-as-oidc-jwt-provider-with-hashicorp-vault-ae9ebcf8e335
+# References
+# - https://medium.com/@sauravkumarsct/integrate-keycloak-as-oidc-jwt-provider-with-hashicorp-vault-ae9ebcf8e335
+# - https://github.com/ScottyLabs/infrastructure/blob/main/tofu/identity/openbao.tf
 
-resource "vault_auth_backend" "oidc" {
-  type        = "oidc"
-  description = "OIDC via Keycloak"
+# Secrets engine
+resource "vault_mount" "kv" {
+  path = "labrador"
+  type = "kv"
+  options = {
+    version = "2"
+  }
 }
 
-resource "vault_generic_endpoint" "oidc_config" {
-  path = "auth/${vault_auth_backend.oidc.path}/config"
+# OIDC auth
+resource "vault_jwt_auth_backend" "oidc" {
+  path               = "oidc"
+  type               = "oidc"
+  oidc_discovery_url = "https://idp.scottylabs.org/realms/labrador"
+  oidc_client_id     = "openbao"
+  oidc_client_secret = var.oidc_client_secret
+  default_role       = "default"
 
-  data_json = jsonencode({
-    oidc_client_id     = "openbao"
-    oidc_client_secret = var.oidc_client_secret
-    default_role       = "default"
-    oidc_discovery_url = "https://idp.scottylabs.org/realms/labrador"
-  })
+  # Makes OIDC the default option on the login page
+  tune {
+    listing_visibility = "unauth"
+  }
 }
 
-resource "vault_generic_endpoint" "oidc_role_default" {
-  path = "auth/${vault_auth_backend.oidc.path}/role/default"
+resource "vault_jwt_auth_backend_role" "default" {
+  backend   = vault_jwt_auth_backend.oidc.path
+  role_name = "default"
+  role_type = "oidc"
 
-  data_json = jsonencode({
-    user_claim              = "sub"
-    token_policies          = ["default"]
-    role_type               = "oidc"
-    token_ttl               = "10m"
-    token_no_default_policy = true
-    token_type              = "service"
-    groups_claim            = "groups"
-    allowed_redirect_uris = [
-      "https://bao.scottylabs.org/ui/vault/auth/oidc/oidc/callback",
-      "http://localhost:8250/oidc/callback",
-    ]
-  })
+  bound_audiences = ["openbao"]
+  user_claim      = "sub"
+  groups_claim    = "groups"
+  token_policies  = ["default"]
+
+  allowed_redirect_uris = [
+    "https://bao.scottylabs.org/ui/vault/auth/oidc/oidc/callback",
+    "http://localhost:8250/oidc/callback",
+  ]
 }
