@@ -26,6 +26,10 @@ jobs:
       TF_VAR_keycloak_client_secret: ${{ secrets.KEYCLOAK_CLIENT_SECRET }}
       TF_VAR_vault_token: ${{ secrets.VAULT_TOKEN }}
 
+    defaults:
+      run:
+        working-directory: infra
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
