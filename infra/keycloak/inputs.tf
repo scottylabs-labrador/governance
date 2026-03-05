@@ -14,7 +14,7 @@ variable "keycloak_client_secret" {
 variable "keycloak_url" {
   description = "Keycloak URL"
   type        = string
-  default     = "http://idp.scottylabs.org"
+  default     = "https://idp.scottylabs.org"
 }
 
 variable "keycloak_realm" {
