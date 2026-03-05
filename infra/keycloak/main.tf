@@ -63,3 +63,27 @@ resource "keycloak_authentication_execution" "auto_set_existing_user" {
   requirement       = "ALTERNATIVE"
   priority          = 1
 }
+
+resource "keycloak_authentication_flow" "browser" {
+  realm_id    = keycloak_realm.labrador.id
+  alias       = "browser"
+  description = "Browser based authentication"
+}
+
+resource "keycloak_authentication_execution" "saml_redirector" {
+  realm_id          = keycloak_realm.labrador.id
+  parent_flow_alias = "browser"
+  authenticator     = "identity-provider-redirector"
+  requirement       = "REQUIRED"
+  priority          = 25
+}
+
+
+resource "keycloak_authentication_execution_config" "saml_redirector_config" {
+  realm_id     = keycloak_realm.labrador.id
+  execution_id = keycloak_authentication_execution.saml_redirector.id
+  alias        = "CMU SAML Redirector"
+  config = {
+    defaultProvider = "cmu-saml"
+  }
+}
