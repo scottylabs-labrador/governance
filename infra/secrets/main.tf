@@ -11,14 +11,19 @@ resource "vault_mount" "kv" {
   }
 }
 
-# OIDC auth
+locals {
+  default_role   = "default"
+  default_policy = "default"
+}
+
+# OIDC auth login
 resource "vault_jwt_auth_backend" "oidc" {
   path               = "oidc"
   type               = "oidc"
-  oidc_discovery_url = "https://idp.scottylabs.org/realms/labrador"
-  oidc_client_id     = "openbao"
+  oidc_discovery_url = var.keycloak_realm_url
+  oidc_client_id     = var.oidc_client_id
   oidc_client_secret = var.oidc_client_secret
-  default_role       = "default"
+  default_role       = local.default_role
 
   # Makes OIDC the default option on the login page
   tune {
@@ -26,15 +31,16 @@ resource "vault_jwt_auth_backend" "oidc" {
   }
 }
 
+# Default role
 resource "vault_jwt_auth_backend_role" "default" {
   backend   = vault_jwt_auth_backend.oidc.path
-  role_name = "default"
+  role_name = local.default_role
   role_type = "oidc"
 
-  bound_audiences = ["openbao"]
+  bound_audiences = [var.oidc_client_id]
   user_claim      = "sub"
   groups_claim    = "groups"
-  token_policies  = ["default"]
+  token_policies  = [local.default_policy]
 
   allowed_redirect_uris = [
     "https://bao.scottylabs.org/ui/vault/auth/oidc/oidc/callback",

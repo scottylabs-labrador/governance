@@ -9,4 +9,6 @@ module "secrets" {
   source             = "./secrets"
   vault_token        = var.vault_token
   oidc_client_secret = module.keycloak.openbao_oidc_client_secret
+  oidc_client_id     = local.oidc_openbao_client_id
+  keycloak_realm_url = local.keycloak_realm_url
 }
