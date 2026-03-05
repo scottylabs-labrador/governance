@@ -13,12 +13,12 @@ jobs:
       # --- S3 backend credentials ---
       S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
       S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
-      S3_REGION: ${{ vars.S3_REGION }}
-      S3_ENDPOINT: ${{ vars.S3_ENDPOINT }}
+      S3_REGION: ${{ secrets.S3_REGION }}
+      S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
 
       # --- Backend configuration ---
-      TF_BACKEND_BUCKET: ${{ vars.TF_BACKEND_BUCKET }}
-      TF_BACKEND_KEY: ${{ vars.TF_BACKEND_KEY }}
+      TF_BACKEND_BUCKET: ${{ secrets.TF_BACKEND_BUCKET }}
+      TF_BACKEND_KEY: ${{ secrets.TF_BACKEND_KEY }}
 
       # --- Sensitive runtime variables ---
       TF_VAR_cmu_ldap_bind_credential: ${{ secrets.CMU_LDAP_BIND_CREDENTIAL }}
