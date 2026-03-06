@@ -34,7 +34,8 @@
         "editor.codeActionsOnSave": {
           "source.fixAll": "explicit"
         },
-        "python.defaultInterpreterPath": ".venv/bin/python3",
+        "python.defaultInterpreterPath": "/workspaces/governance/.venv/bin/python3",
+        "mypy.dmypyExecutable": "/workspaces/governance/.venv/bin/dmypy",
         "[json]": {
           "editor.defaultFormatter": "vscode.json-language-features"
         },
