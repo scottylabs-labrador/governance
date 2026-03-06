@@ -15,8 +15,7 @@
       "installOhMyZsh": true,
       "installOhMyZshConfig": true,
       "configureZshAsDefaultShell": true
-    },
-    "ghcr.io/robbert229/devcontainer-features/opentofu:1": {}
+    }
   },
   "customizations": {
     "vscode": {
