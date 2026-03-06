@@ -1,5 +1,5 @@
 # Populate the leadership group with members and admins from the `admins.json` file.
-# We need to use data sources for roles because we don't have enough permission 
+# We need to use data sources for roles because we don't have enough permission
 # to create composite roles.
 
 # Leadership members group
