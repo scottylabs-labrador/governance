@@ -1,0 +1,56 @@
+{
+  "name": "Governance",
+  "image": "astral/uv:python3.12-bookworm-slim",
+  "runArgs": [
+    "--name",
+    "governance"
+  ],
+  "postCreateCommand": "./.devcontainer/post-create.sh",
+  "features": {
+    "git": {
+      "enabled": true
+    },
+    "ghcr.io/devcontainers/features/common-utils": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "installOhMyZshConfig": true,
+      "configureZshAsDefaultShell": true
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "tamasfe.even-better-toml",
+        "editorconfig.editorconfig",
+        "charliermarsh.ruff",
+        "redhat.vscode-yaml",
+        "matangover.mypy",
+        "astral-sh.ty",
+        "davidanson.vscode-markdownlint"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": "explicit"
+        },
+        "python.defaultInterpreterPath": ".venv/bin/python3",
+        "[json]": {
+          "editor.defaultFormatter": "vscode.json-language-features"
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "vscode.json-language-features"
+        },
+        "[toml]": {
+          "editor.defaultFormatter": "tamasfe.even-better-toml"
+        },
+        "[python]": {
+          "editor.defaultFormatter": "charliermarsh.ruff"
+        },
+        "[yaml]": {
+          "editor.defaultFormatter": "redhat.vscode-yaml"
+        }
+      }
+    }
+  }
+}
