@@ -108,25 +108,6 @@
     }
   ],
   "definitions": {
-    "member": {
-      "type": "object",
-      "description": "A member of the team, used in the 'contributors' array.",
-      "required": [
-        "github-username",
-        "title"
-      ],
-      "properties": {
-        "github-username": {
-          "type": "string",
-          "description": "GitHub username of the contributor."
-        },
-        "title": {
-          "type": "string",
-          "description": "Title of the contributor in the team."
-        }
-      },
-      "additionalProperties": false
-    },
     "repo": {
       "type": "object",
       "description": "A repository owned by the team.",
@@ -143,6 +124,24 @@
         "description": {
           "description": "Brief description of the repository.",
           "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "member": {
+      "type": "object",
+      "description": "A member of the team, used in the 'contributors' array.",
+      "required": [
+        "github-username"
+      ],
+      "properties": {
+        "github-username": {
+          "type": "string",
+          "description": "GitHub username of the contributor."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the contributor in the team."
         }
       },
       "additionalProperties": false
