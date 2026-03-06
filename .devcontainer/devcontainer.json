@@ -5,7 +5,6 @@
     "--name",
     "governance"
   ],
-  "postCreateCommand": "./.devcontainer/post-create.sh",
   "features": {
     "git": {
       "enabled": true
