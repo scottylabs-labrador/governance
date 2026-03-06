@@ -37,3 +37,24 @@ resource "keycloak_group_memberships" "team_admins_memberships" {
   group_id = keycloak_group.team_admins_groups[each.key].id
   members  = var.teams_data[each.key].admins
 }
+
+# Team OIDC clients
+resource "keycloak_openid_client" "team_oidc_clients" {
+  for_each  = local.team_slugs
+  realm_id  = keycloak_realm.labrador.id
+  client_id = "${each.key}-local"
+
+  access_type = "CONFIDENTIAL"
+
+  # Access settings
+  root_url            = "http://localhost:3000"
+  valid_redirect_uris = ["http://localhost/api/auth/oauth2/callback/keycloak"]
+  web_origins         = ["http://localhost"]
+
+  # Capability config
+  standard_flow_enabled    = true
+  service_accounts_enabled = true
+
+  # Logout settings
+  frontchannel_logout_enabled = true
+}

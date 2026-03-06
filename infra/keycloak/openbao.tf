@@ -9,6 +9,7 @@ resource "keycloak_openid_client" "openbao" {
 
   access_type = "CONFIDENTIAL"
 
+  # Access settings
   root_url = "${var.secrets_url}/ui/vault/auth/oidc/oidc/callback"
   valid_redirect_uris = [
     "${var.secrets_url}/oidc/callback",
@@ -18,9 +19,11 @@ resource "keycloak_openid_client" "openbao" {
   web_origins = [var.secrets_url]
   admin_url   = "${var.secrets_url}/ui/vault/auth/oidc/oidc/callback"
 
+  # Capability config
   standard_flow_enabled    = true
   service_accounts_enabled = true
 
+  # Logout settings
   frontchannel_logout_enabled = true
 }
 

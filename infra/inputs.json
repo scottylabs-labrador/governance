@@ -1,16 +1,20 @@
 {
-  "leadership": {
-    "members": [
-      "yh4"
-    ],
-    "admins": [
-      "yh4"
-    ]
-  },
-  "teams": {
-    "cmuresearch": {
-      "members": [],
-      "admins": []
-    }
-  }
+	"leadership": {
+		"members": ["yh4"],
+		"admins": ["yh4"]
+	},
+	"teams": {
+		"cmuresearch": {
+			"members": [],
+			"admins": []
+		},
+		"cmuservice": {
+			"members": [],
+			"admins": []
+		},
+		"collegecart": {
+			"members": [],
+			"admins": []
+		}
+	}
 }
