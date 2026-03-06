@@ -1,3 +1,4 @@
+slug = "leadership"
 name = "Labrador Leadership"
 description = "The leadership team of Labrador."
 create-oidc-clients = false

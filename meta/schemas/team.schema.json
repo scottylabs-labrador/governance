@@ -1,12 +1,18 @@
 {
   "type": "object",
   "required": [
+    "slug",
     "name",
     "description",
     "repos",
     "membership"
   ],
   "properties": {
+    "slug": {
+      "type": "string",
+      "description": "A short identifier used for internal references (e.g. OIDC client ID).",
+      "pattern": "^[a-z0-9-]+$"
+    },
     "name": {
       "type": "string",
       "description": "Public or display name of the team (e.g. used in GitHub org team names)."
