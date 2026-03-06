@@ -11,5 +11,8 @@ organization's governance model.
 
 [[membership]]
 timeframe = "2026-2027"
-maintainers = ["yh4"]
-contributors = ["yh4"]
+maintainers = ["Yuxiang-Huang"]
+
+[[membership.contributors]]
+github-username = "Yuxiang-Huang"
+title = "Head of Onboarding and Documentation"

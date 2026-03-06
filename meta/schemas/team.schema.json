@@ -107,11 +107,11 @@
       "type": "object",
       "description": "A member of the team, used in the 'contributors' array.",
       "required": [
-        "username",
+        "github-username",
         "title"
       ],
       "properties": {
-        "username": {
+        "github-username": {
           "type": "string",
           "description": "GitHub username of the contributor."
         },
