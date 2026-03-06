@@ -5,6 +5,7 @@ provider "registry.opentofu.org/hashicorp/vault" {
   version     = "5.7.0"
   constraints = "5.7.0"
   hashes = [
+    "h1:2QeZNnet/mjLbegGoC2ykfiHzBydo7fu47QE4hqKvT0=",
     "h1:iLMzDsHFFlk13OMq+hx4IvabQqAJCP++fAnRHGDOu+w=",
     "zh:29e77f756f33f56ef9641a23d020525380957e1faa104cea67e8872f842da17c",
     "zh:709a950dd289a68da12ca7dfae03abe71e928af09562e8efaceea3079681ed3b",
@@ -23,6 +24,7 @@ provider "registry.opentofu.org/keycloak/keycloak" {
   constraints = "5.7.0"
   hashes = [
     "h1:3DuKdVeOxwULh7l6bvJKWZvsgSZo92rtnrdvyp+X2Lc=",
+    "h1:VSlrHkPQm4mczl+5ttuj6jAh2eVvupaoeymEn9Qi5vo=",
     "zh:19be4505b17e4818db121a82917cb6723019cf379cfb82b720eaa2886f15bede",
     "zh:2bd1565ed22db6a9fb50d60626e22c277f3b034a71f65e6c0011e42f56cad2bb",
     "zh:34a9e2dfb06331dc6146491c4a0721001195c6a769cdc2d4546edb2acf2b39bd",
