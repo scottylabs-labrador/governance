@@ -1,0 +1,15 @@
+name = "Labrador Leadership"
+description = "The leadership team of Labrador."
+create-oidc-clients = false
+
+[[repos]]
+slug = "governance"
+description = """
+Definition and automation of the ScottyLabs Labrador GitHub
+organization's governance model.
+"""
+
+[[membership]]
+timeframe = "2026-2027"
+maintainers = ["yh4"]
+contributors = ["yh4"]
