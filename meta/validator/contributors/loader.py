@@ -1,33 +1,33 @@
 """Load contributor TOML files from disk."""
 
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import tomli
 
-from meta.validator.model import Contributor
+from meta.models import Contributor
+from meta.validator.shared.key_ordering import KeyOrdering
+
+if TYPE_CHECKING:
+    from meta.validator.shared.reporter import Reporter
 
 CONTRIBUTORS_GLOB = "contributors/*.toml"
+CONTRIBUTOR_SCHEMA_PATH = "__meta/schemas/contributor.schema.json"
 
 
-def _parse_contributor(data: dict[str, Any], key_order: list[str]) -> Contributor:
-    """Parse one contributor TOML document."""
-    return Contributor(
-        full_name=str(data["full-name"]),
-        andrew_id=(None if data.get("andrew-id") is None else str(data["andrew-id"])),
-        key_order=key_order,
-    )
-
-
-def load_contributors() -> dict[str, Contributor]:
+def load_contributors(reporter: Reporter) -> dict[str, Contributor]:
     """Load all contributor TOML files."""
-    out: dict[str, Contributor] = {}
+    contributors: dict[str, Contributor] = {}
+    key_ordering = KeyOrdering(CONTRIBUTOR_SCHEMA_PATH, reporter)
     for path in sorted(Path().glob(CONTRIBUTORS_GLOB)):
         if not path.is_file():
             continue
+
         content = path.read_text(encoding="utf-8")
         data: dict[str, Any] = tomli.loads(content)
-        key_order = list(data.keys())
-        c = _parse_contributor(data, key_order)
-        out[f"contributors/{path.name}"] = c
-    return out
+        file_path = f"contributors/{path.name}"
+        key_ordering.validate(file_path, data)
+        contributor = Contributor.model_validate(data)
+        contributors[file_path] = contributor
+
+    return contributors

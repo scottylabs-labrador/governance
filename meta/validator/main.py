@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 from meta.logger import get_app_logger
 from meta.validator.contributors import ContributorValidator, load_contributors
-from meta.validator.reporter import Reporter
+from meta.validator.shared.reporter import Reporter
 from meta.validator.teams import TeamValidator, load_teams
 
 
@@ -21,17 +21,12 @@ def main() -> None:
         sys.exit(1)
 
     load_dotenv()
-    contributors = load_contributors()
-    teams = load_teams()
-    reporter = Reporter(contributors, teams)
 
-    ContributorValidator(contributors=contributors, reporter=reporter).validate()
-    TeamValidator(
-        teams=teams,
-        contributors=contributors,
-        reporter=reporter,
-    ).validate()
+    reporter = Reporter()
+    contributors = load_contributors(reporter)
+    teams = load_teams(reporter)
 
-    report = reporter.emit()
-    if not report.valid:
-        raise SystemExit(1)
+    ContributorValidator(contributors, reporter).validate()
+    TeamValidator(teams, contributors, reporter).validate()
+
+    reporter.emit()

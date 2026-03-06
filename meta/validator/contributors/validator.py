@@ -2,36 +2,30 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from meta.validator.contributors.checks import validate_andrew_ids
-from meta.validator.key_ordering import load_schema_key_ordering, validate_key_orderings
-
 if TYPE_CHECKING:
-    from meta.validator.model import Contributor
-    from meta.validator.reporter import Reporter
+    from meta.models import Contributor
+    from meta.validator.shared.reporter import Reporter
 
 
-@dataclass(frozen=True, slots=True)
 class ContributorValidator:
-    """Run contributor validation (sync + async) and record results."""
+    """Run contributor validation and record results."""
 
-    contributors: dict[str, Contributor]
-    reporter: Reporter
-    schema_path: str = "__meta/schemas/contributor.schema.json"
+    def __init__(
+        self,
+        contributors: dict[str, Contributor],
+        reporter: Reporter,
+    ) -> None:
+        """Create a contributor validator."""
+        self.contributors = contributors
+        self.reporter = reporter
 
     def validate(self) -> None:
-        """Run all contributor validations and record into the reporter."""
-        self.validate_sync()
+        """Validate all contributors.
 
-    def validate_sync(self) -> None:
-        """Run synchronous contributor checks."""
-        ordering = load_schema_key_ordering(self.schema_path)
-        self.reporter.insert_errors(
-            validate_key_orderings(
-                self.contributors,
-                ordering,
-            ),
-        )
-        self.reporter.insert_errors(validate_andrew_ids(self.contributors))
+        This includes:
+        - Validating that the GitHub username is valid
+        - Validating that the Andrew ID maps to a user in Keycloak
+        - Validating that the email from Andrew ID is in Slack
+        """
