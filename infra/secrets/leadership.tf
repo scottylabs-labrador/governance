@@ -43,6 +43,10 @@ resource "vault_policy" "leadership_admin" {
     path "*" {
       capabilities = ["create", "read", "update", "delete", "list", "sudo"]
     }
+
+    path "/labrador/metadata/*" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
   EOT
 }
 
