@@ -13,8 +13,12 @@
       "admins": []
     },
     "cmuservice": {
-      "members": [],
-      "admins": []
+      "members": [
+        "benliu"
+      ],
+      "admins": [
+        "benliu"
+      ]
     },
     "collegecart": {
       "members": [
