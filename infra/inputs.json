@@ -9,8 +9,12 @@
   },
   "teams": {
     "cmuresearch": {
-      "members": [],
-      "admins": []
+      "members": [
+        "bryung"
+      ],
+      "admins": [
+        "bryung"
+      ]
     },
     "cmuservice": {
       "members": [
