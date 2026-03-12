@@ -79,3 +79,22 @@ resource "keycloak_openid_client" "team_oidc_clients" {
   # Logout settings
   frontchannel_logout_enabled = true
 }
+
+# Include a `groups` claim in the token that includes the groups the user is a member of
+resource "keycloak_openid_group_membership_protocol_mapper" "group_membership_mapper" {
+  realm_id   = keycloak_realm.labrador.id
+  for_each   = local.all_clients
+  client_id  = keycloak_openid_client.team_oidc_clients[each.value.client_id].id
+  name       = "group-membership-mapper"
+  claim_name = "groups"
+  full_path  = false
+}
+
+# Include the current client in the token's `aud` audience claim
+resource "keycloak_openid_audience_protocol_mapper" "audience_mapper" {
+  realm_id                 = keycloak_realm.labrador.id
+  for_each                 = local.all_clients
+  client_id                = keycloak_openid_client.team_oidc_clients[each.value.client_id].id
+  name                     = "audience-mapper"
+  included_client_audience = each.value.client_id
+}
