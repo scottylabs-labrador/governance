@@ -39,45 +39,38 @@ resource "keycloak_group_memberships" "team_admins_memberships" {
 }
 
 # Team OIDC clients
-resource "keycloak_openid_client" "local_team_oidc_clients" {
-  for_each  = local.team_slugs
-  realm_id  = keycloak_realm.labrador.id
-  client_id = "${each.key}-local"
-
-  access_type = "CONFIDENTIAL"
-
-  # Access settings
-  root_url            = "http://localhost:3000"
-  valid_redirect_uris = ["http://localhost/api/auth/oauth2/callback/keycloak"]
-  web_origins         = ["http://localhost"]
-
-  # Capability config
-  standard_flow_enabled    = true
-  service_accounts_enabled = true
-
-  # Logout settings
-  frontchannel_logout_enabled = true
-}
-
 locals {
-  gtm_teams = {
-    for k, v in var.teams_data : k => v
-    if v.website != "" && v.server != ""
-  }
+  # Generate local-only clients
+  local_clients = { for slug in local.team_slugs : "${slug}-local" => {
+    client_id   = "${slug}-local"
+    root_url    = "http://localhost:3000"
+    redirects   = ["http://localhost/api/auth/oauth2/callback/keycloak"]
+    web_origins = ["http://localhost"]
+  } }
+
+  # Generate prod-ready clients
+  prod_clients = { for k, v in var.teams_data : "${k}-prod" => {
+    client_id   = "${k}-prod"
+    root_url    = v.website
+    redirects   = ["${v.server}/api/auth/oauth2/callback/keycloak"]
+    web_origins = [v.server]
+  } if v.website != "" && v.server != "" }
+
+  # Merge them into one map
+  all_clients = merge(local.local_clients, local.prod_clients)
 }
 
-
-resource "keycloak_openid_client" "prod_team_oidc_clients" {
-  for_each  = local.gtm_teams
+resource "keycloak_openid_client" "team_oidc_clients" {
+  for_each  = local.all_clients
   realm_id  = keycloak_realm.labrador.id
-  client_id = "${each.key}-prod"
+  client_id = each.value.client_id
 
   access_type = "CONFIDENTIAL"
 
   # Access settings
-  root_url            = each.value.website
-  valid_redirect_uris = ["${each.value.server}/api/auth/oauth2/callback/keycloak"]
-  web_origins         = [each.value.server]
+  root_url            = each.value.root_url
+  valid_redirect_uris = each.value.redirects
+  web_origins         = each.value.web_origins
 
   # Capability config
   standard_flow_enabled    = true
