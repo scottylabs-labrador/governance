@@ -8,6 +8,7 @@ dependencies = [
   "dotenv>=0.9.9",
   "httpx>=0.28.1",
   "pydantic>=2.12.5",
+  "pygithub>=2.9.0",
   "tomli>=2.4.0",
 ]
 
@@ -30,6 +31,7 @@ include = ["meta/*"]
 [project.scripts]
 validate = "validators:main"
 lint = "linter:main"
+sync-github = "synchronizers.github_synchronizer:main"
 
 [tool.ruff]
 lint.select = ["ALL"]
