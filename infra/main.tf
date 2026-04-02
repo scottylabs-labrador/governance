@@ -7,15 +7,15 @@ module "keycloak" {
   keycloak_client_secret   = var.keycloak_client_secret
 
   # URLs
-  keycloak_realm_url = local.keycloak_realm_url
-  secrets_url        = local.secrets_url
+  keycloak_realm_url = var.keycloak_realm_url
+  secrets_url        = var.secrets_url
 
   # IDs
-  openbao_oidc_client_id = local.openbao_oidc_client_id
+  openbao_oidc_client_id = var.openbao_oidc_client_id
 
   # Group names
-  admin_group_suffix    = local.admin_suffix
-  leadership_group_name = local.leadership_group_name
+  admin_group_suffix    = var.admin_group_suffix
+  leadership_group_name = var.leadership_group_name
 
   # Data
   leadership_data = local.leadership_data
@@ -29,16 +29,16 @@ module "secrets" {
   vault_token = var.vault_token
 
   # OIDC
-  oidc_client_id     = local.openbao_oidc_client_id
+  oidc_client_id     = var.openbao_oidc_client_id
   oidc_client_secret = module.keycloak.openbao_oidc_client_secret
 
   # URLs
-  keycloak_realm_url = local.keycloak_realm_url
-  secrets_url        = local.secrets_url
+  keycloak_realm_url = var.keycloak_realm_url
+  secrets_url        = var.secrets_url
 
   # Group names
-  admin_group_suffix    = local.admin_suffix
-  leadership_group_name = local.leadership_group_name
+  admin_group_suffix    = var.admin_group_suffix
+  leadership_group_name = var.leadership_group_name
 
   # Data
   team_slugs = toset(keys(local.teams_data))

@@ -27,3 +27,33 @@ variable "github_token" {
   type        = string
   sensitive   = true
 }
+
+variable "keycloak_realm_url" {
+  description = "Keycloak realm URL"
+  type        = string
+  default     = "https://idp.scottylabs.org/realms/labrador"
+}
+
+variable "openbao_oidc_client_id" {
+  description = "OpenBao OIDC client ID"
+  type        = string
+  default     = "openbao"
+}
+
+variable "secrets_url" {
+  description = "Secrets URL"
+  type        = string
+  default     = "https://bao.scottylabs.org"
+}
+
+variable "leadership_group_name" {
+  description = "Leadership group name"
+  type        = string
+  default     = "leadership"
+}
+
+variable "admin_group_suffix" {
+  description = "Admin group suffix"
+  type        = string
+  default     = "admins"
+}
