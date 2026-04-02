@@ -2,41 +2,49 @@
   {
     "name": "Task",
     "description": "A specific piece of work related to project operations that does not involve code changes",
-    "color": "yellow"
+    "color": "yellow",
+    "is_enabled": true
   },
   {
     "name": "Bug",
     "description": "An unexpected problem or behavior (corresponds to the fix type in Conventional Commits)",
-    "color": "red"
+    "color": "red",
+    "is_enabled": true
   },
   {
     "name": "Feature",
     "description": "A request, idea, or new functionality (corresponds to the feat type in Conventional Commits)",
-    "color": "blue"
+    "color": "blue",
+    "is_enabled": true
   },
   {
     "name": "Improvement",
     "description": "An enhancement that improves the maintainability or performance of existing code without changing its external behavior (corresponds to the refactor, style, and perf types in Conventional Commits).",
-    "color": "green"
+    "color": "green",
+    "is_enabled": true
   },
   {
     "name": "Epic",
     "description": "A high-level initiative that groups related sub-issues.",
-    "color": "purple"
+    "color": "purple",
+    "is_enabled": true
   },
   {
     "name": "Maintenance",
     "description": "Changes that affect configuration files, documentation, build systems, deployment automation, CI/CD workflows, or other maintenance tasks that don\u2019t affect code behavior (corresponds to the chore, docs, build, and ci types in Conventional Commits).",
-    "color": "gray"
+    "color": "gray",
+    "is_enabled": true
   },
   {
     "name": "Design",
     "description": "Work related to creating, updating, or refining the visual and user experience aspects of the product.  Does not involve code changes.",
-    "color": "pink"
+    "color": "pink",
+    "is_enabled": true
   },
   {
     "name": "Test",
     "description": "Additions, updates, or improvements to automated tests (corresponds to the test type in Conventional Commits).",
-    "color": "orange"
+    "color": "orange",
+    "is_enabled": true
   }
 ]
