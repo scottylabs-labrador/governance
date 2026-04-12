@@ -3,6 +3,9 @@
   "[json]": {
     "files.insertFinalNewline": true
   },
+  "[jsonc]": {
+    "files.insertFinalNewline": true
+  },
   "[toml]": {
     "editor.defaultFormatter": "tamasfe.even-better-toml"
   },
