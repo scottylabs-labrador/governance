@@ -1,5 +1,8 @@
 {
   "editor.formatOnSave": true,
+  "[json]": {
+    "files.insertFinalNewline": true
+  },
   "[toml]": {
     "editor.defaultFormatter": "tamasfe.even-better-toml"
   },
