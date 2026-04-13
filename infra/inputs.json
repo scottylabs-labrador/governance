@@ -41,6 +41,16 @@
       ],
       "website": "https://collegecart.org",
       "server": "https://collegecart.org"
+    },
+    "cmustudy": {
+      "members": [
+        "annadavi"
+      ],
+      "admins": [
+        "annadavi"
+      ],
+      "website": "https://study.scottylabs.org",
+      "server": "https://study.scottylabs.org"
     }
   }
 }
