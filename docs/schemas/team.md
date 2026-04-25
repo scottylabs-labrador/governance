@@ -6,22 +6,26 @@
 Create a new TOML file in `teams/` with the team slug as the filename:
 
 ```toml
-# The team slug is used to identify the team internally (e.g. OIDC client ID).
+# The team slug is used to identify the team internally (e.g. Slack channel name).
 # It should be a short, lowercase, and hyphen-separated string.
 slug = "your-team-slug"
-name = "Your Team Name"
-website = "your-team-website.com"
 
-# Set the `create-oidc-clients` field to `false` if the team does not need OIDC clients.
-# OIDC clients are necessary if you want to use ScottyLabs' auth system!
-#
-# It defaults to true if not specified, so please remove this section if the team do need OIDC clients.
-# Note that the `website` field is required only when `create-oidc-clients` is true.
-create-oidc-clients = false
+# The name is used to identify the team publicly (e.g. GitHub org team name).
+name = "Your Team Name"
+
+# The website is not required.
+website = "your-team-website.com"
 
 description = """
 A brief description of the team.
 """
+
+# Set the `create-oidc-clients` field to `false` if the team does not need OIDC clients.
+# OIDC clients are necessary if you want to use ScottyLabs' auth system!
+#
+# It defaults to true if not specified, so please remove this section if the team
+# do need OIDC clients.
+create-oidc-clients = false
 
 # List of repositories owned by the team.
 # Note that the owners of the repositories must be ScottyLabs-Labrador.
