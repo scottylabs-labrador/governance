@@ -17,14 +17,19 @@
       "type": "string",
       "description": "Public or display name of the team (e.g. used in GitHub org team names)."
     },
-    "website": {
-      "type": "string",
-      "format": "url",
-      "description": "Deployed URL associated with the team."
-    },
     "description": {
       "type": "string",
       "description": "A brief description of the team."
+    },
+    "website": {
+      "type": "string",
+      "format": "url",
+      "description": "Website URL associated with the team."
+    },
+    "server": {
+      "type": "string",
+      "format": "url",
+      "description": "Server URL associated with the team."
     },
     "create-oidc-clients": {
       "type": "boolean",
@@ -81,7 +86,7 @@
   "additionalProperties": false,
   "allOf": [
     {
-      "$comment": "Require 'website' when 'create-oidc-clients' is missing or true.",
+      "$comment": "Require 'website' and 'server' when 'create-oidc-clients' is missing or true.",
       "if": {
         "anyOf": [
           {
@@ -102,7 +107,8 @@
       },
       "then": {
         "required": [
-          "website"
+          "website",
+          "server"
         ]
       }
     }
