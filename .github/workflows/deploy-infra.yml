@@ -2,7 +2,8 @@ name: OpenTofu Apply
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   apply:
@@ -26,6 +27,10 @@ jobs:
       TF_VAR_keycloak_client_secret: ${{ secrets.TF_VAR_KEYCLOAK_CLIENT_SECRET }}
       TF_VAR_vault_token: ${{ secrets.TF_VAR_VAULT_TOKEN }}
       TF_VAR_github_token: ${{ secrets.TF_VAR_GITHUB_TOKEN }}
+      TF_VAR_github_client_id: ${{ secrets.TF_VAR_GITHUB_CLIENT_ID }}
+      TF_VAR_github_client_secret: ${{ secrets.TF_VAR_GITHUB_CLIENT_SECRET }}
+      TF_VAR_slack_client_id: ${{ secrets.TF_VAR_SLACK_CLIENT_ID }}
+      TF_VAR_slack_client_secret: ${{ secrets.TF_VAR_SLACK_CLIENT_SECRET }}
 
     defaults:
       run:
