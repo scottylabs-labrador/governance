@@ -3,13 +3,11 @@
 > [!NOTE]
 > This is for team leads seeking to register their team.
 
-Create a new TOML file in `teams/` with the team slug as the filename:
+Choose a team slug. The team slug is used to identify the team internally
+(e.g. Slack channel name). It should be a short, lowercase, and hyphen-separated
+string. Create a new TOML file in `teams/` with the team slug as the filename:
 
 ```toml
-# The team slug is used to identify the team internally (e.g. Slack channel name).
-# It should be a short, lowercase, and hyphen-separated string.
-slug = "your-team-slug"
-
 # The name is used to identify the team publicly (e.g. GitHub org team name).
 name = "Your Team Name"
 
