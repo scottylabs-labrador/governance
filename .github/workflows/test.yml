@@ -18,4 +18,5 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Test
-        run: uv run --frozen --no-dev --group test pytest --cov=meta
+        run: uv run --frozen --no-dev --group test pytest --cov=meta/validator/members
+          --cov=meta/validator/teams --cov=meta/validator/shared
