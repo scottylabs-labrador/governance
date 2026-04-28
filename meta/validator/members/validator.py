@@ -1,24 +1,24 @@
-"""Contributor validation runner."""
+"""Member validation runner."""
 
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from meta.models import Contributor
+    from meta.models import Member
     from meta.validator.shared.reporter import Reporter
 
 
-class ContributorValidator:
+class MemberValidator:
     """Run contributor validation and record results."""
 
     def __init__(
         self,
-        contributors: dict[str, Contributor],
+        members: dict[str, Member],
         reporter: Reporter,
     ) -> None:
         """Create a contributor validator."""
-        self.contributors = contributors
+        self.members = members
         self.reporter = reporter
 
     def validate(self) -> None:

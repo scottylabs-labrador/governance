@@ -13,7 +13,7 @@ class Reporter:
     def __init__(
         self,
     ) -> None:
-        """Initialize file buckets for contributors and teams."""
+        """Initialize file buckets for members and teams."""
         self.logger = get_app_logger()
         self._errors: defaultdict[str, list[str]] = defaultdict(
             list,

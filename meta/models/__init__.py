@@ -1,6 +1,6 @@
 """Data models."""
 
-from ._contributor import Contributor
+from ._member import Member
 from ._team import Team
 
-__all__ = ["Contributor", "Team"]
+__all__ = ["Member", "Team"]

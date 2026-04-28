@@ -9,5 +9,5 @@ class Team(BaseModel):
     website: str | None = None
     create_oidc_clients: bool = True
     repos: list[str]
-    maintainers: list[str]
-    contributors: list[str]
+    leads: list[str]
+    members: list[str]

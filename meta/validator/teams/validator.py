@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 import httpx
 
 if TYPE_CHECKING:
-    from meta.models import Contributor, Team
+    from meta.models import Member, Team
     from meta.validator.shared.reporter import Reporter
 
 
@@ -19,12 +19,12 @@ class TeamValidator:
     def __init__(
         self,
         teams: dict[str, Team],
-        contributors: dict[str, Contributor],
+        members: dict[str, Member],
         reporter: Reporter,
     ) -> None:
         """Create a team validator."""
         self.teams = teams
-        self.contributors = contributors
+        self.members = members
         self.reporter = reporter
 
     def validate(self) -> None:
@@ -58,25 +58,25 @@ class TeamValidator:
     def validate_maintainers_are_contributors(self) -> None:
         """Ensure every maintainer is also listed as a contributor."""
         for team_file, team in self.teams.items():
-            contributor_set = set(team.contributors)
-            for maintainer in team.maintainers:
-                if maintainer in contributor_set:
+            member_set = set(team.members)
+            for lead in team.leads:
+                if lead in member_set:
                     continue
 
                 self.reporter.insert_error(
                     team_file,
-                    f"Maintainer {maintainer!r} missing from contributors",
+                    f"Lead {lead!r} missing from members",
                 )
 
     def validate_cross_references(self) -> None:
         """Check that all team contributors exist in contributors."""
         for team_file, team in self.teams.items():
-            for contributor in team.contributors:
-                contributor_file = f"contributors/{contributor}.toml"
-                if contributor_file in self.contributors:
+            for member in team.members:
+                member_file = f"members/{member}.toml"
+                if member_file in self.members:
                     continue
 
                 self.reporter.insert_error(
                     team_file,
-                    f"Unknown contributor: {contributor}",
+                    f"Unknown member: {member}",
                 )
