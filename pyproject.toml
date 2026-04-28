@@ -28,14 +28,19 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 include = ["meta/*"]
+exclude = ["meta/*/tests/**"]
 
 [project.scripts]
 validate = "meta.validator:main"
+test-validator = "meta.validator.test_runner:main"
 lint = "meta.linter:main"
 sync-github = "meta.synchronizers.github:main"
 
 [tool.ruff]
 lint.select = ["ALL"]
+
+[tool.ruff.lint.per-file-ignores]
+"meta/*/tests/**" = ["S101"] # Allows `assert` in tests.
 
 [tool.mypy]
 strict = true
