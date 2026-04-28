@@ -53,6 +53,15 @@ class MemberValidator:
                         ErrorCode.INVALID_GITHUB_USERNAME,
                         f"GitHub user {github_username} not found",
                     )
+                    continue
+
+                # Non-404 GitHub responses (e.g. 403 rate limit) should stop
+                # validation to avoid hammering the API with repeated requests.
+                self.logger.exception(
+                    "Error validating GitHub username: %s",
+                    github_username,
+                )
+                sys.exit(1)
             except Exception:
                 # If there is an error validating the GitHub username, we don't
                 # want to spam GitHub API with more requests, so we exit the program.

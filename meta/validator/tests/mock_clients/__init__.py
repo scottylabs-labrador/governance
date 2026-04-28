@@ -2,14 +2,16 @@
 
 from .mock_github_client import (
     MockGithubClientNotFound,
-    MockGithubClientRecorder,
+    MockGithubClientRateLimitExceeded,
+    MockGithubClientUnexpectedError,
     MockGithubClientValid,
     make_get_github_client,
 )
 
 __all__ = [
     "MockGithubClientNotFound",
-    "MockGithubClientRecorder",
+    "MockGithubClientRateLimitExceeded",
+    "MockGithubClientUnexpectedError",
     "MockGithubClientValid",
     "make_get_github_client",
 ]

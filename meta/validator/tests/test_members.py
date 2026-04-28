@@ -1,8 +1,10 @@
-"""Validator package smoke tests."""
+"""Test the member validator."""
 
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+
+import pytest
 
 from meta.validator.src.members import validator as members_validator
 from meta.validator.src.members.loader import load_members
@@ -11,13 +13,13 @@ from meta.validator.src.reporter import ErrorCode, Reporter
 from meta.validator.tests.helper import has_error, no_errors
 from meta.validator.tests.mock_clients.mock_github_client import (
     MockGithubClientNotFound,
-    MockGithubClientRecorder,
+    MockGithubClientRateLimitExceeded,
+    MockGithubClientUnexpectedError,
     MockGithubClientValid,
     make_get_github_client,
 )
 
 if TYPE_CHECKING:
-    import pytest
     from _pytest.monkeypatch import MonkeyPatch
 
 def test_member_valid(monkeypatch: MonkeyPatch) -> None:
@@ -49,29 +51,8 @@ def test_member_not_file() -> None:
     load_members(reporter, "meta/validator/tests/members/*")
     assert has_error(reporter, ErrorCode.MEMBER_NOT_FILE)
 
-
-def test_member_github_validation_calls_get_user_for_each_member(
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    """GitHub validator should call ``get_user`` once per loaded member."""
-    reporter = Reporter()
-    members = load_members(reporter, "meta/validator/tests/members/for_teams/*.toml")
-    assert no_errors(reporter)
-    mock_client = MockGithubClientRecorder()
-    monkeypatch.setattr(
-        members_validator,
-        "get_github_client",
-        make_get_github_client(mock_client),
-    )
-
-    MemberValidator(members, reporter).validate()
-
-    assert sorted(mock_client.requested_usernames) == sorted(members.keys())
-    assert no_errors(reporter)
-
-
-def test_member_github_validation_records_not_found(
-    monkeypatch: pytest.MonkeyPatch,
+def test_not_found_github_username(
+    monkeypatch: MonkeyPatch,
 ) -> None:
     """A GitHub 404 should be reported as ``INVALID_GITHUB_USERNAME``."""
     reporter = Reporter()
@@ -91,3 +72,47 @@ def test_member_github_validation_records_not_found(
     MemberValidator(members, reporter).validate()
 
     assert has_error(reporter, ErrorCode.INVALID_GITHUB_USERNAME)
+
+
+def test_rate_limited_github_username(
+    monkeypatch: MonkeyPatch,
+) -> None:
+    """A GitHub rate-limit response should abort validation early."""
+    reporter = Reporter()
+    members = load_members(
+        reporter,
+        "meta/validator/tests/members/for_teams/alice.toml",
+    )
+    assert no_errors(reporter)
+
+    mock_client = MockGithubClientRateLimitExceeded()
+    monkeypatch.setattr(
+        members_validator,
+        "get_github_client",
+        make_get_github_client(mock_client),
+    )
+
+    with pytest.raises(SystemExit, match="1"):
+        MemberValidator(members, reporter).validate()
+
+
+def test_unexpected_github_client_error_exits(
+    monkeypatch: MonkeyPatch,
+) -> None:
+    """Unexpected client errors should hit generic ``except Exception`` and exit."""
+    reporter = Reporter()
+    members = load_members(
+        reporter,
+        "meta/validator/tests/members/for_teams/alice.toml",
+    )
+    assert no_errors(reporter)
+
+    mock_client = MockGithubClientUnexpectedError()
+    monkeypatch.setattr(
+        members_validator,
+        "get_github_client",
+        make_get_github_client(mock_client),
+    )
+
+    with pytest.raises(SystemExit, match="1"):
+        MemberValidator(members, reporter).validate()

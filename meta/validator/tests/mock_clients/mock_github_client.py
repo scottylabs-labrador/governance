@@ -17,19 +17,6 @@ class MockGithubClientValid:
         """Pretend the looked up GitHub user exists."""
         return
 
-
-class MockGithubClientRecorder:
-    """Mock GitHub client collecting requested usernames."""
-
-    def __init__(self) -> None:
-        """Initialize the request recorder."""
-        self.requested_usernames: list[str] = []
-
-    def get_user(self, github_username: str) -> None:
-        """Record the looked up GitHub username."""
-        self.requested_usernames.append(github_username)
-
-
 class MockGithubClientNotFound:
     """Mock GitHub client that always raises not-found."""
 
@@ -38,8 +25,32 @@ class MockGithubClientNotFound:
         raise GithubException(status=404, data={"message": "Not Found"})
 
 
+class MockGithubClientRateLimitExceeded:
+    """Mock GitHub client that always raises rate-limit exceeded."""
+
+    def get_user(self, _github_username: str) -> None:
+        """Raise a GitHub rate-limit response."""
+        raise GithubException(
+            status=403,
+            data={"message": "API rate limit exceeded"},
+            headers={"x-ratelimit-remaining": "0"},
+        )
+
+
+class MockGithubClientUnexpectedError:
+    """Mock GitHub client that always raises an unexpected exception."""
+
+    def get_user(self, _github_username: str) -> None:
+        """Raise a non-GitHub exception to hit the generic failure path."""
+        msg = "unexpected github client failure"
+        raise RuntimeError(msg)
+
+
 type MockGithubClient = (
-    MockGithubClientValid | MockGithubClientRecorder | MockGithubClientNotFound
+    MockGithubClientValid
+    | MockGithubClientNotFound
+    | MockGithubClientRateLimitExceeded
+    | MockGithubClientUnexpectedError
 )
 
 

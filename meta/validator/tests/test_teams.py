@@ -1,4 +1,4 @@
-"""Tests for team loading and ``TeamValidator``."""
+"""Test the team validator."""
 
 from __future__ import annotations
 
