@@ -51,6 +51,7 @@ def test_member_not_file() -> None:
     load_members(reporter, "meta/validator/tests/members/*")
     assert has_error(reporter, ErrorCode.MEMBER_NOT_FILE)
 
+
 def test_not_found_github_username(
     monkeypatch: MonkeyPatch,
 ) -> None:
