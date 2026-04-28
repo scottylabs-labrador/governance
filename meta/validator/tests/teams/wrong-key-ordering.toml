@@ -1,0 +1,15 @@
+description = "Top-level keys must follow schema property order (name before description)."
+name = "Wrong Key Order"
+create-oidc-clients = false
+
+[[repos]]
+name = "fixture-repo"
+description = "Repository fixture."
+
+[[membership]]
+timeframe = "2026-2027"
+leads = ["alice"]
+
+[[membership.members]]
+github-username = "alice"
+title = "Lead"

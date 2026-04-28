@@ -1,0 +1,19 @@
+name = "Fixture Valid Team"
+description = "Passes key ordering, cross-references, and lead-in-members checks."
+create-oidc-clients = false
+
+[[repos]]
+name = "fixture-repo"
+description = "Repository fixture for validator tests."
+
+[[membership]]
+timeframe = "2026-2027"
+leads = ["alice"]
+
+[[membership.members]]
+github-username = "alice"
+title = "Lead"
+
+[[membership.members]]
+github-username = "bob"
+title = "Member"

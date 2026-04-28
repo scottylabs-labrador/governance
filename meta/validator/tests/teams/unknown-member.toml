@@ -1,0 +1,19 @@
+name = "Unknown Member Team"
+description = "References a GitHub user not present in members/."
+create-oidc-clients = false
+
+[[repos]]
+name = "fixture-repo"
+description = "Repository fixture."
+
+[[membership]]
+timeframe = "2026-2027"
+leads = ["alice"]
+
+[[membership.members]]
+github-username = "alice"
+title = "Lead"
+
+[[membership.members]]
+github-username = "charlie"
+title = "Not in members directory"

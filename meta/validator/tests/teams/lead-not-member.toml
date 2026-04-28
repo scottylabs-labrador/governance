@@ -1,0 +1,15 @@
+name = "Lead Not In Members Team"
+description = "Lead must appear in the membership members list."
+create-oidc-clients = false
+
+[[repos]]
+name = "fixture-repo"
+description = "Repository fixture."
+
+[[membership]]
+timeframe = "2026-2027"
+leads = ["alice"]
+
+[[membership.members]]
+github-username = "bob"
+title = "Alice is lead but only Bob is listed as member"
