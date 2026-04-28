@@ -1,4 +1,3 @@
-import sys
 from contextlib import contextmanager
 from typing import TYPE_CHECKING
 
@@ -30,4 +29,4 @@ def log_operation(operation_name: str) -> Generator[None]:
         logger.success("Successfully %s.\n", operation_name)
     except Exception:
         logger.exception("Failed to %s", operation_name)
-        sys.exit(1)
+        raise

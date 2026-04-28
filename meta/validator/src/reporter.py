@@ -17,6 +17,7 @@ class ErrorCode(Enum):
     TEAM_KEY_ORDERING = "Team key ordering is invalid"
     LEAD_CROSS_REFERENCE = "Lead missing from members in a team"
     MEMBER_CROSS_REFERENCE = "A member in team missing from members/"
+    INVALID_GITHUB_USERNAME = "Invalid GitHub username"
 
 
 class Reporter:
@@ -51,7 +52,7 @@ class Reporter:
                     continue
                 self.logger.error(file_path)
                 for error in errors:
-                    self.logger.error("  - %s", error)
+                    self.logger.error("  - %s", error[1])
 
             self.logger.critical(
                 "Validation failed with %s error(s) in %s file(s)",
