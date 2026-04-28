@@ -8,11 +8,11 @@ This README describes the checks performed by the validator, as well as other ch
 - The key orderings in a TOML file must match the the ordering of `properties` in the
   corresponding schema file.
 
-### Contributors
+### Members
 
-- The `github-username` field for a contributor must be a valid GitHub username.
+- The `github-username` field for a member must be a valid GitHub username.
 
-- The `andrew-id` field for a contributor
+- The `andrew-id` field for a member
 
   - must match the username of a user in Keycloak.
 
@@ -22,25 +22,25 @@ This README describes the checks performed by the validator, as well as other ch
 
 - The `slug` field for teams must match the filename.
 
-- All maintainers in a team must also be listed as contributors.
+- All leads in a team must also be listed as members.
 
-- All team contributors must exist in the `contributors/` directory.
+- All team members must exist in the `members/` directory.
 
 - GitHub repositories must exist and be unique in a list.
 
 ## Bash Script Checks
 
-- Pull requests adding a new contributor must be submitted by the contributor themselves.
+- Pull requests adding a new member must be submitted by the member themselves.
   This self-nomination approach promotes ownership, helps maintain the integrity
-  of our contributor list, and encourages active participation with our governance
+  of our member list, and encourages active participation with our governance
   process and the organization. PRs in violation will be automatically rejected.
 
 - When adding a new team, the team members must have already been added in
-  previous PRs due to the earlier requirement on adding contributors.
-  For similar reasons, you must be a maintainer of any team you create.
+  previous PRs due to the earlier requirement on adding members.
+  For similar reasons, you must be a lead of any team you create.
 
-- Since you may only add one contirbutor and join only one team per PR,
-  any PR that changes more than one file in the `contributors/` or `teams/`
+- Since you may only add one member and join only one team per PR,
+  any PR that changes more than one file in the `members/` or `teams/`
   directories is automatically rejected.
 
 ## Check EditorConfig Compliance

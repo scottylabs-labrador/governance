@@ -1,7 +1,7 @@
 # Adding a team
 
 > [!NOTE]
-> This is for team maintainers seeking to register their team.
+> This is for team leads seeking to register their team.
 
 Create a new TOML file in `teams/` with the team slug as the filename:
 
@@ -46,17 +46,17 @@ description = "A brief description of repo 2."
 # E.g. "2026-2027" or "Spring 2026".
 timeframe = "timeframe-1"
 
-# List of the GitHub usernames of the maintainers for this timeframe.
-maintainers = ["maintainer-1", "maintainer-2"]
+# List of the GitHub usernames of the leads for this timeframe.
+leads = ["lead-1", "lead-2"]
 
-# List of contributors for this timeframe.
-[[membership.contributors]]
-github-username = "contributor-1"
-title = "Contributor 1's title" # The title is optional.
+# List of members for this timeframe.
+[[membership.members]]
+github-username = "member-1"
+title = "Member 1's title" # The title is optional.
 
-[[membership.contributors]]
-github-username = "contributor-2"
-title = "Contributor 2's title"
+[[membership.members]]
+github-username = "member-2"
+title = "Member 2's title"
 ```
 
 Visit the [team schema](../../meta/schemas/team.schema.json) to learn more about

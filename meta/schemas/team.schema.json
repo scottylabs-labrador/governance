@@ -50,26 +50,26 @@
         "type": "object",
         "required": [
           "timeframe",
-          "maintainers",
-          "contributors"
+          "leads",
+          "members"
         ],
         "properties": {
           "timeframe": {
             "type": "string",
             "description": "Membership timeframe (e.g. '2025-2026' or Fall 2025)."
           },
-          "maintainers": {
+          "leads": {
             "type": "array",
-            "description": "GitHub usernames of the maintainers for this timeframe.",
+            "description": "GitHub usernames of the leads for this timeframe.",
             "items": {
               "type": "string"
             },
             "minItems": 1,
             "uniqueItems": true
           },
-          "contributors": {
+          "members": {
             "type": "array",
-            "description": "Contributors for this timeframe.",
+            "description": "Members for this timeframe.",
             "items": {
               "$ref": "#/definitions/member"
             },
@@ -136,18 +136,18 @@
     },
     "member": {
       "type": "object",
-      "description": "A member of the team, used in the 'contributors' array.",
+      "description": "A member of the team, used in the 'members' array.",
       "required": [
         "github-username"
       ],
       "properties": {
         "github-username": {
           "type": "string",
-          "description": "GitHub username of the contributor."
+          "description": "GitHub username of the member."
         },
         "title": {
           "type": "string",
-          "description": "Title of the contributor in the team."
+          "description": "Title of the member in the team."
         }
       },
       "additionalProperties": false

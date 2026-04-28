@@ -1,11 +1,11 @@
 [[rule]]
-include = ["contributors/*.toml", "teams/*.toml"]
+include = ["members/*.toml", "teams/*.toml"]
 
 [[rule]]
-include = ["contributors/*.toml"]
+include = ["members/*.toml"]
 
 [rule.schema]
-path = "./meta/schemas/contributor.schema.json"
+path = "./meta/schemas/member.schema.json"
 enabled = true
 
 [[rule]]

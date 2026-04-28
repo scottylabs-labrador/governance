@@ -1,6 +1,6 @@
 # Schemas
 
-This directory contains the JSON schemas for the TOML files in the `contributors/`
+This directory contains the JSON schemas for the TOML files in the `members/`
 and `teams/` directories.
 
 ## Documentation
