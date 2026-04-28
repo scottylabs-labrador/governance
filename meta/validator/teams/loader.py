@@ -1,9 +1,8 @@
 """Load team TOML files from disk."""
 
+import tomllib
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
-
-import tomli
 
 from meta.models import Team
 from meta.validator.shared import KeyOrdering
@@ -24,7 +23,7 @@ def load_teams(reporter: Reporter) -> dict[str, Team]:
             reporter.insert_error(path.name, "Not a file")
 
         content = path.read_text(encoding="utf-8")
-        data: dict[str, Any] = tomli.loads(content)
+        data: dict[str, Any] = tomllib.loads(content)
         file_path = f"teams/{path.name}"
         key_ordering.validate(file_path, data)
         team = _load_team(file_path, data)

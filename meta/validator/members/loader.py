@@ -1,9 +1,8 @@
 """Load contributor TOML files from disk."""
 
+import tomllib
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
-
-import tomli
 
 from meta.models import Member
 from meta.validator.shared import KeyOrdering
@@ -24,7 +23,7 @@ def load_members(reporter: Reporter) -> dict[str, Member]:
             reporter.insert_error(path.name, "Not a file")
 
         content = path.read_text(encoding="utf-8")
-        data: dict[str, Any] = tomli.loads(content)
+        data: dict[str, Any] = tomllib.loads(content)
         file_path = f"members/{path.name}"
         key_ordering.validate(file_path, data)
         data["file_path"] = file_path
