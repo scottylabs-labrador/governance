@@ -18,7 +18,7 @@ dev = [
   "types-colorama>=0.4.15.20250801",
 ]
 
-test = ["pytest>=8.3.5"]
+test = ["pytest>=8.3.5", "pytest-cov>=7.1.0"]
 
 validator = ["pygithub>=2.9.0"]
 
