@@ -18,4 +18,4 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Test
-        run: uv run --frozen --no-dev --group test test-validator
+        run: uv run --frozen --no-dev --group test --group validator test-validator
