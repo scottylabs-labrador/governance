@@ -39,7 +39,7 @@ def test_team_unknown_member_cross_reference() -> None:
     members = load_members(reporter, MEMBERS_FOR_TEAMS)
     teams = load_teams(reporter, "meta/validator/tests/teams/unknown-member.toml")
     assert not reporter._errors  # noqa: SLF001
-    TeamValidator(teams, members, reporter).validate_sync()
+    TeamValidator(teams, members, reporter).validate()
     messages = _flatten_errors(reporter)
     assert any("Unknown member: charlie" in m for m in messages)
 
@@ -50,7 +50,7 @@ def test_team_lead_not_in_members() -> None:
     members = load_members(reporter, MEMBERS_FOR_TEAMS)
     teams = load_teams(reporter, "meta/validator/tests/teams/lead-not-member.toml")
     assert not reporter._errors  # noqa: SLF001
-    TeamValidator(teams, members, reporter).validate_sync()
+    TeamValidator(teams, members, reporter).validate()
     messages = _flatten_errors(reporter)
     assert any("Lead 'alice' missing from members" in m for m in messages)
 
