@@ -56,13 +56,10 @@ class TeamValidator:
 
     def validate_cross_references(self) -> None:
         """Check that all team contributors exist in contributors."""
-        for team_file, team in self.teams.items():
+        for team in self.teams.values():
             for member in team.members:
-                member_file = f"members/{member}.toml"
-                if member_file in self.members:
-                    continue
-
-                self.reporter.insert_error(
-                    team_file,
-                    f"Unknown member: {member}",
-                )
+                if member not in self.members:
+                    self.reporter.insert_error(
+                        team.file_path,
+                        f"Unknown member: {member}",
+                    )
