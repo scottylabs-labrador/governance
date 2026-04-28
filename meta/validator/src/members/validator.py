@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
 from github import GithubException
 
 from meta.clients.github_client import get_github_client
+from meta.clients.keycloak_client import get_keycloak_client
 from meta.logger import get_app_logger
 from meta.validator.src.reporter import ErrorCode
 
@@ -36,9 +37,9 @@ class MemberValidator:
         This includes:
         - Validating that the GitHub username is valid
         - Validating that the Andrew ID maps to a user in Keycloak
-        - Validating that the email from Andrew ID is in Slack
         """
         self.validate_github_username()
+        self.validate_keycloak_username()
 
     def validate_github_username(self) -> None:
         """Validate that the GitHub username is valid with GitHub API."""
@@ -70,3 +71,28 @@ class MemberValidator:
                     github_username,
                 )
                 sys.exit(1)
+
+    def validate_keycloak_username(self) -> None:
+        """Validate that the Andrew ID maps to a user in Keycloak."""
+        keycloak_client = get_keycloak_client()
+        for member in self.members.values():
+            andrew_id = member.andrew_id
+            if not andrew_id:
+                continue
+
+            try:
+                user = keycloak_client.get_user_id_by_username(andrew_id)
+                if user is None:
+                    self.reporter.insert_error(
+                        member.file_path,
+                        ErrorCode.INVALID_KEYCLOAK_USERNAME,
+                        f"User {andrew_id} not found in Keycloak!",
+                    )
+            except Exception:
+                self.logger.exception(
+                    "Error validating Keycloak username: %s",
+                    andrew_id,
+                )
+                sys.exit(1)
+
+

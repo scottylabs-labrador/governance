@@ -20,7 +20,7 @@ dev = [
 
 test = ["pytest>=8.3.5", "pytest-cov>=7.1.0"]
 
-validator = ["pygithub>=2.9.0"]
+validator = ["pygithub>=2.9.0", "python-keycloak>=7.1.0"]
 
 [build-system]
 requires = ["hatchling"]

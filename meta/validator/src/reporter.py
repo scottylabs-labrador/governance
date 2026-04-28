@@ -18,6 +18,7 @@ class ErrorCode(Enum):
     LEAD_CROSS_REFERENCE = "Lead missing from members in a team"
     MEMBER_CROSS_REFERENCE = "A member in team missing from members/"
     INVALID_GITHUB_USERNAME = "Invalid GitHub username"
+    INVALID_KEYCLOAK_USERNAME = "Invalid Keycloak username"
 
 
 class Reporter:
