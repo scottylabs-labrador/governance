@@ -24,6 +24,7 @@ def load_members(
     for path in Path().glob(members_glob):
         if not path.is_file():
             reporter.insert_error(path.name, "Not a file")
+            continue
 
         content = path.read_text(encoding="utf-8")
         data: dict[str, Any] = tomllib.loads(content)

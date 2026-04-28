@@ -53,3 +53,10 @@ def test_team_lead_not_in_members() -> None:
     TeamValidator(teams, members, reporter).validate_sync()
     messages = _flatten_errors(reporter)
     assert any("Lead 'alice' missing from members" in m for m in messages)
+
+
+def test_team_not_file() -> None:
+    """Teams must be a file."""
+    reporter = Reporter()
+    load_teams(reporter, "meta/validator/tests/teams/*")
+    assert len(reporter._errors) > 0  # noqa: SLF001

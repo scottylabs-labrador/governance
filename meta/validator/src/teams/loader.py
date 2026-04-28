@@ -24,6 +24,7 @@ def load_teams(
     for path in sorted(Path().glob(teams_glob)):
         if not path.is_file():
             reporter.insert_error(path.name, "Not a file")
+            continue
 
         content = path.read_text(encoding="utf-8")
         data: dict[str, Any] = tomllib.loads(content)
