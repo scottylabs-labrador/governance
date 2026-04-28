@@ -55,4 +55,4 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Validate Rules
-        run: uv run validate --frozen --no-dev --group validator
+        run: uv run --frozen --no-dev --group validator validate
