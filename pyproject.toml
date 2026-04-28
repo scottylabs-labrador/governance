@@ -18,9 +18,7 @@ dev = [
   "types-colorama>=0.4.15.20250801",
 ]
 
-validator = [
-  "pygithub>=2.9.0",
-]
+validator = ["pygithub>=2.9.0"]
 
 [build-system]
 requires = ["hatchling"]
