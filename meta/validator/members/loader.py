@@ -14,11 +14,14 @@ MEMBERS_GLOB = "members/*.toml"
 MEMBER_SCHEMA_PATH = "meta/schemas/member.schema.json"
 
 
-def load_members(reporter: Reporter) -> dict[str, Member]:
+def load_members(
+    reporter: Reporter,
+    members_glob: str = MEMBERS_GLOB,
+) -> dict[str, Member]:
     """Load all member TOML files."""
     members: dict[str, Member] = {}
     key_ordering = KeyOrdering(MEMBER_SCHEMA_PATH, reporter)
-    for path in Path().glob(MEMBERS_GLOB):
+    for path in Path().glob(members_glob):
         if not path.is_file():
             reporter.insert_error(path.name, "Not a file")
 
