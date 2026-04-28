@@ -18,6 +18,8 @@ dev = [
   "types-colorama>=0.4.15.20250801",
 ]
 
+test = ["pytest>=8.3.5"]
+
 validator = ["pygithub>=2.9.0"]
 
 [build-system]

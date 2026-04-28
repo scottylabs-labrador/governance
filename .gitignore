@@ -39,13 +39,13 @@ terraform.rc
 # Mac OS files
 .DS_Store
 
-# Python
-# Dependency directories
+# Python dependencies and caches
 .venv/
 __pycache__/
 **/*.egg-info/
 .ruff_cache/
 .mypy_cache/
+.pytest_cache/
 
 # Environment variables
 .env
