@@ -9,7 +9,7 @@ import httpx
 
 if TYPE_CHECKING:
     from meta.models import Member, Team
-    from meta.validator.reporter import Reporter
+    from meta.validator.src.reporter import Reporter
 
 
 class TeamValidator:

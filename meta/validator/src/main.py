@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from dotenv import load_dotenv
 
-from meta.validator.members import MemberValidator, load_members
-from meta.validator.reporter import Reporter
-from meta.validator.teams import TeamValidator, load_teams
+from .members import MemberValidator, load_members
+from .reporter import Reporter
+from .teams import TeamValidator, load_teams
 
 
 def main() -> None:

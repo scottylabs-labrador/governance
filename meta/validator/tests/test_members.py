@@ -1,7 +1,7 @@
 """Validator package smoke tests."""
 
-from meta.validator.members.loader import load_members
-from meta.validator.reporter import Reporter
+from meta.validator.src.members.loader import load_members
+from meta.validator.src.reporter import Reporter
 
 MEMBER_SCHEMA_PATH = "meta/schemas/member.schema.json"
 

@@ -5,10 +5,10 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from meta.models import Member
-from meta.validator.shared import KeyOrdering
+from meta.validator.src.shared import KeyOrdering
 
 if TYPE_CHECKING:
-    from meta.validator.reporter import Reporter
+    from meta.validator.src.reporter import Reporter
 
 MEMBERS_GLOB = "members/*.toml"
 MEMBER_SCHEMA_PATH = "meta/schemas/member.schema.json"

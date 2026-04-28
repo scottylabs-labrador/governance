@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from meta.validator.members.loader import load_members
-from meta.validator.reporter import Reporter
-from meta.validator.teams.loader import load_teams
-from meta.validator.teams.validator import TeamValidator
+from meta.validator.src.members.loader import load_members
+from meta.validator.src.reporter import Reporter
+from meta.validator.src.teams.loader import load_teams
+from meta.validator.src.teams.validator import TeamValidator
 
 MEMBERS_FOR_TEAMS = "meta/validator/tests/members/for_teams/*.toml"
 

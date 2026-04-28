@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import Mapping
 
-    from meta.validator.reporter import Reporter
+    from meta.validator.src.reporter import Reporter
 
 
 class KeyOrdering:

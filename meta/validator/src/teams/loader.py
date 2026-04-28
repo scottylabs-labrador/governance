@@ -5,10 +5,10 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from meta.models import Team
-from meta.validator.shared import KeyOrdering
+from meta.validator.src.shared import KeyOrdering
 
 if TYPE_CHECKING:
-    from meta.validator.reporter import Reporter
+    from meta.validator.src.reporter import Reporter
 
 TEAMS_GLOB = "teams/*.toml"
 TEAM_SCHEMA_PATH = "meta/schemas/team.schema.json"
