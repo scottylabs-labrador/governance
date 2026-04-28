@@ -32,6 +32,7 @@ exclude = ["meta/*/tests/**"]
 
 [project.scripts]
 validate = "meta.validator.src:main"
+test-validator = "meta.validator.tests:main"
 lint = "meta.linter:main"
 sync-github = "meta.synchronizers.github:main"
 
