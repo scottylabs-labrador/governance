@@ -7,6 +7,8 @@ from typing import TYPE_CHECKING
 
 import httpx
 
+from meta.validator.src.reporter import ErrorCode
+
 if TYPE_CHECKING:
     from meta.models import Member, Team
     from meta.validator.src.reporter import Reporter
@@ -46,13 +48,12 @@ class TeamValidator:
         for team_file, team in self.teams.items():
             member_set = set(team.members)
             for lead in team.leads:
-                if lead in member_set:
-                    continue
-
-                self.reporter.insert_error(
-                    team_file,
-                    f"Lead {lead!r} missing from members",
-                )
+                if lead not in member_set:
+                    self.reporter.insert_error(
+                        team_file,
+                        ErrorCode.LEAD_CROSS_REFERENCE,
+                        f"Lead {lead!r} missing from members",
+                    )
 
     def validate_cross_references(self) -> None:
         """Check that all team contributors exist in contributors."""
@@ -61,5 +62,6 @@ class TeamValidator:
                 if member not in self.members:
                     self.reporter.insert_error(
                         team.file_path,
+                        ErrorCode.MEMBER_CROSS_REFERENCE,
                         f"Unknown member: {member}",
                     )

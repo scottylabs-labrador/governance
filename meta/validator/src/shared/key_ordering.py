@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import Mapping
 
-    from meta.validator.src.reporter import Reporter
+    from meta.validator.src.reporter import ErrorCode, Reporter
 
 
 class KeyOrdering:
@@ -23,7 +23,12 @@ class KeyOrdering:
         self.expected_order = list(properties.keys())
         self.reporter = reporter
 
-    def validate(self, file_path: str, data: Mapping[str, object]) -> None:
+    def validate(
+        self,
+        file_path: str,
+        data: Mapping[str, object],
+        error_code: ErrorCode,
+    ) -> None:
         """Validate key order for a single TOML mapping."""
         it = iter(self.expected_order)
         key_order = list(data.keys())
@@ -32,6 +37,7 @@ class KeyOrdering:
 
         self.reporter.insert_error(
             file_path,
+            error_code,
             (
                 f"Invalid key order for {file_path}.\n"
                 f"    - expected (schema): {self.expected_order}\n"

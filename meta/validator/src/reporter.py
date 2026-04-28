@@ -3,8 +3,20 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from enum import Enum
 
 from meta.logger import get_app_logger
+
+
+class ErrorCode(Enum):
+    """Validation error types."""
+
+    MEMBER_NOT_FILE = "Member not a file"
+    TEAM_NOT_FILE = "Team not a file"
+    MEMBER_KEY_ORDERING = "Member key ordering is invalid"
+    TEAM_KEY_ORDERING = "Team key ordering is invalid"
+    LEAD_CROSS_REFERENCE = "Lead missing from members in a team"
+    MEMBER_CROSS_REFERENCE = "A member in team missing from members/"
 
 
 class Reporter:
@@ -15,13 +27,13 @@ class Reporter:
     ) -> None:
         """Initialize file buckets for members and teams."""
         self.logger = get_app_logger()
-        self._errors: defaultdict[str, list[str]] = defaultdict(
+        self._errors: defaultdict[str, list[tuple[ErrorCode, str]]] = defaultdict(
             list,
         )
 
-    def insert_error(self, file_path: str, message: str) -> None:
+    def insert_error(self, file_path: str, error: ErrorCode, message: str) -> None:
         """Insert a validation error into the per-file bucket."""
-        self._errors[file_path].append(message)
+        self._errors[file_path].append((error, message))
 
     def emit(self) -> None:
         """Log the report and return whether the run is valid."""

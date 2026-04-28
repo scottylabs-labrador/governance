@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from meta.models import Member
+from meta.validator.src.reporter import ErrorCode
 from meta.validator.src.shared import KeyOrdering
 
 if TYPE_CHECKING:
@@ -23,13 +24,13 @@ def load_members(
     key_ordering = KeyOrdering(MEMBER_SCHEMA_PATH, reporter)
     for path in Path().glob(members_glob):
         if not path.is_file():
-            reporter.insert_error(path.name, "Not a file")
+            reporter.insert_error(path.name, ErrorCode.MEMBER_NOT_FILE, "Not a file")
             continue
 
         content = path.read_text(encoding="utf-8")
         data: dict[str, Any] = tomllib.loads(content)
         file_path = f"members/{path.name}"
-        key_ordering.validate(file_path, data)
+        key_ordering.validate(file_path, data, ErrorCode.MEMBER_KEY_ORDERING)
         data["file_path"] = file_path
         members[path.stem] = Member.model_validate(data)
 
