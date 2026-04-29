@@ -1,4 +1,4 @@
-name: OpenTofu Apply
+name: Deploy
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  apply:
+  deploy:
     name: Apply Infrastructure
     runs-on: ubuntu-latest
 
@@ -59,5 +59,5 @@ jobs:
       - name: Check configuration formatting
         run: tofu fmt -check -diff
 
-      - name: Plan infrastructure
-        run: tofu plan
+      - name: Apply infrastructure changes
+        run: tofu apply -auto-approve
