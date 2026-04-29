@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+import asyncio
 import sys
 from http import HTTPStatus
 from typing import TYPE_CHECKING
 
+import httpx
 from github import GithubException
 
 from meta.clients.github_client import get_github_client
@@ -16,6 +18,10 @@ from meta.validator.src.reporter import ErrorCode
 if TYPE_CHECKING:
     from meta.models import Member
     from meta.validator.src.reporter import Reporter
+
+
+class MemberValidationError(Exception):
+    """Raised when validation fails for a single member."""
 
 
 class MemberValidator:
@@ -32,10 +38,30 @@ class MemberValidator:
         self.logger = get_app_logger()
 
     def validate(self) -> None:
-        """Validate all contributors."""
-        for github_username, member in self.members.items():
-            self.validate_github(github_username)
-            self.validate_keycloak(github_username, member)
+        """Validate all members in parallel."""
+        try:
+            asyncio.run(self._validate_async())
+        except MemberValidationError:
+            sys.exit(1)
+
+    async def _validate_async(self) -> None:
+        """Validate each member concurrently using a shared async HTTP client scope."""
+        async with httpx.AsyncClient() as _:
+            await asyncio.gather(
+                *[
+                    self._validate_member(github_username, member)
+                    for github_username, member in self.members.items()
+                ],
+            )
+
+    async def _validate_member(
+        self,
+        github_username: str,
+        member: Member,
+    ) -> None:
+        """Run validation for a single member."""
+        await asyncio.to_thread(self.validate_github, github_username)
+        await asyncio.to_thread(self.validate_keycloak, github_username, member)
 
     def validate_github(self, github_username: str) -> None:
         """Validate that the GitHub username is valid with GitHub API."""
@@ -51,21 +77,17 @@ class MemberValidator:
                 )
                 return
 
-            # Non-404 GitHub responses (e.g. 403 rate limit) should stop
-            # validation to avoid hammering the API with repeated requests.
             self.logger.exception(
                 "Error validating GitHub username: %s",
                 github_username,
             )
-            sys.exit(1)
-        except Exception:
-            # If there is an error validating the GitHub username, we don't
-            # want to spam GitHub API with more requests, so we exit the program.
+            raise MemberValidationError from e
+        except Exception as e:
             self.logger.exception(
                 "Error validating GitHub username: %s",
                 github_username,
             )
-            sys.exit(1)
+            raise MemberValidationError from e
 
     def validate_keycloak(self, github_username: str, member: Member) -> None:
         """Validate that the Andrew ID maps to a user in Keycloak."""
@@ -113,9 +135,9 @@ class MemberValidator:
                 )
                 return
 
-        except Exception:
+        except Exception as e:
             self.logger.exception(
                 "Error validating Keycloak: %s",
                 andrew_id,
             )
-            sys.exit(1)
+            raise MemberValidationError from e

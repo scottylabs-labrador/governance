@@ -246,7 +246,6 @@ source = { editable = "." }
 dependencies = [
     { name = "colorama" },
     { name = "dotenv" },
-    { name = "httpx" },
     { name = "pydantic" },
 ]
 
@@ -262,6 +261,7 @@ test = [
     { name = "pytest-cov" },
 ]
 validator = [
+    { name = "httpx" },
     { name = "pygithub" },
     { name = "python-keycloak" },
 ]
@@ -270,7 +270,6 @@ validator = [
 requires-dist = [
     { name = "colorama", specifier = ">=0.4.6" },
     { name = "dotenv", specifier = ">=0.9.9" },
-    { name = "httpx", specifier = ">=0.28.1" },
     { name = "pydantic", specifier = ">=2.12.5" },
 ]
 
@@ -286,6 +285,7 @@ test = [
     { name = "pytest-cov", specifier = ">=7.1.0" },
 ]
 validator = [
+    { name = "httpx", specifier = ">=0.28.1" },
     { name = "pygithub", specifier = ">=2.9.0" },
     { name = "python-keycloak", specifier = ">=7.1.0" },
 ]
