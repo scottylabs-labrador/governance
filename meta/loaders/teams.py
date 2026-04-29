@@ -5,18 +5,19 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from meta.models import Team
-from meta.validator.src.reporter import ErrorCode
-from meta.validator.src.shared import KeyOrdering
+from meta.reporter import ErrorCode
+
+from .key_ordering import KeyOrdering
 
 if TYPE_CHECKING:
-    from meta.validator.src.reporter import Reporter
+    from meta.reporter import Reporter
 
 TEAMS_GLOB = "teams/*.toml"
 TEAM_SCHEMA_PATH = "meta/schemas/team.schema.json"
 
 
 def load_teams(
-    reporter: Reporter,
+    reporter: Reporter | None = None,
     teams_glob: str = TEAMS_GLOB,
 ) -> dict[str, Team]:
     """Load all team TOML files."""
@@ -24,7 +25,12 @@ def load_teams(
     key_ordering = KeyOrdering(TEAM_SCHEMA_PATH, reporter)
     for path in sorted(Path().glob(teams_glob)):
         if not path.is_file():
-            reporter.insert_error(path.name, ErrorCode.TEAM_NOT_FILE, "not a file")
+            if reporter is not None:
+                reporter.insert_error(
+                    path.name,
+                    ErrorCode.TEAM_NOT_FILE,
+                    "not a file",
+                )
             continue
 
         content = path.read_text(encoding="utf-8")

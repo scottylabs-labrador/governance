@@ -8,10 +8,9 @@ def main() -> None:
     subprocess.run(
         [  # noqa: S607
             "pytest",
-            "meta/validator/tests",
-            "--cov=meta/validator/src/members",
-            "--cov=meta/validator/src/teams",
-            "--cov=meta/validator/src/shared",
+            "meta/tests",
+            "--cov=meta/loaders",
+            "--cov=meta/validator",
             "--cov-report=term-missing",
         ],
         check=True,

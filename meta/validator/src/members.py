@@ -13,11 +13,11 @@ from github import GithubException
 from meta.clients.github_client import get_github_client
 from meta.clients.keycloak_client import get_keycloak_client
 from meta.logger import get_app_logger
-from meta.validator.src.reporter import ErrorCode
+from meta.reporter import ErrorCode
 
 if TYPE_CHECKING:
     from meta.models import Member
-    from meta.validator.src.reporter import Reporter
+    from meta.reporter import Reporter
 
 
 class MemberValidationError(Exception):

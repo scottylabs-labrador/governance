@@ -22,7 +22,8 @@ The rest of the documentation is for maintainers of this repository.
 │   ├── validator      # Validation tools for the TOML files
 │   ├── synchronizers  # Permission synchronizers
 │   ├── linter         # Python-based linter
-│   └── logger         # Python-based logger
+│   ├── logger         # Python-based logger
+│   └── tests          # Python-based tests
 └── teams              # Team TOML files
 ```
 

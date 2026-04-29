@@ -5,18 +5,19 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from meta.models import Member
-from meta.validator.src.reporter import ErrorCode
-from meta.validator.src.shared import KeyOrdering
+from meta.reporter import ErrorCode
+
+from .key_ordering import KeyOrdering
 
 if TYPE_CHECKING:
-    from meta.validator.src.reporter import Reporter
+    from meta.reporter import Reporter
 
 MEMBERS_GLOB = "members/*.toml"
 MEMBER_SCHEMA_PATH = "meta/schemas/member.schema.json"
 
 
 def load_members(
-    reporter: Reporter,
+    reporter: Reporter | None = None,
     members_glob: str = MEMBERS_GLOB,
 ) -> dict[str, Member]:
     """Load all member TOML files."""
@@ -24,7 +25,12 @@ def load_members(
     key_ordering = KeyOrdering(MEMBER_SCHEMA_PATH, reporter)
     for path in Path().glob(members_glob):
         if not path.is_file():
-            reporter.insert_error(path.name, ErrorCode.MEMBER_NOT_FILE, "Not a file")
+            if reporter is not None:
+                reporter.insert_error(
+                    path.name,
+                    ErrorCode.MEMBER_NOT_FILE,
+                    "Not a file",
+                )
             continue
 
         content = path.read_text(encoding="utf-8")
