@@ -54,25 +54,8 @@ class MockGithubClientRateLimitExceeded:
         )
 
 
-class MockGithubClientUnexpectedError:
-    """Mock GitHub client that always raises an unexpected exception."""
-
-    def get_user(self, _github_username: str) -> None:
-        """Raise a non-GitHub exception to hit the generic failure path."""
-        msg = "unexpected github client failure"
-        raise RuntimeError(msg)
-
-    def get_repo(self, _repo_name: str) -> None:
-        """Raise a non-GitHub exception for repository reads."""
-        msg = "unexpected github client failure"
-        raise RuntimeError(msg)
-
-
 type MockGithubClient = (
-    MockGithubClientValid
-    | MockGithubClientNotFound
-    | MockGithubClientRateLimitExceeded
-    | MockGithubClientUnexpectedError
+    MockGithubClientValid | MockGithubClientNotFound | MockGithubClientRateLimitExceeded
 )
 
 

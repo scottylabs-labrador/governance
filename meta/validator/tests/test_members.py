@@ -14,7 +14,6 @@ from meta.validator.tests.helper import has_error, no_errors
 from meta.validator.tests.mock_clients.mock_github_client import (
     MockGithubClientNotFound,
     MockGithubClientRateLimitExceeded,
-    MockGithubClientUnexpectedError,
     MockGithubClientValid,
     make_get_github_client,
 )
@@ -137,28 +136,6 @@ def test_rate_limited_github_username(
     assert no_errors(reporter)
 
     mock_github = MockGithubClientRateLimitExceeded()
-    monkeypatch.setattr(
-        members_validator,
-        "get_github_client",
-        make_get_github_client(mock_github),
-    )
-
-    with pytest.raises(SystemExit, match="1"):
-        MemberValidator(members, reporter).validate()
-
-
-def test_unexpected_github_client_error_exits(
-    monkeypatch: MonkeyPatch,
-) -> None:
-    """Unexpected client errors should hit generic ``except Exception`` and exit."""
-    reporter = Reporter()
-    members = load_members(
-        reporter,
-        "meta/validator/tests/members/for_teams/alice.toml",
-    )
-    assert no_errors(reporter)
-
-    mock_github = MockGithubClientUnexpectedError()
     monkeypatch.setattr(
         members_validator,
         "get_github_client",

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import pytest
+
 from meta.validator.src.members.loader import load_members
 from meta.validator.src.reporter import ErrorCode, Reporter
 from meta.validator.src.teams import validator as teams_validator
@@ -12,6 +14,7 @@ from meta.validator.src.teams.validator import TeamValidator
 from meta.validator.tests.helper import has_error, no_errors
 from meta.validator.tests.mock_clients.mock_github_client import (
     MockGithubClientNotFound,
+    MockGithubClientRateLimitExceeded,
     MockGithubClientValid,
     make_get_github_client,
 )
@@ -33,7 +36,7 @@ def test_team_valid(monkeypatch: MonkeyPatch) -> None:
         "get_github_client",
         make_get_github_client(MockGithubClientValid()),
     )
-    TeamValidator(teams, members, reporter).validate_sync()
+    TeamValidator(teams, members, reporter).validate()
     assert no_errors(reporter)
 
 
@@ -74,6 +77,21 @@ def test_team_lead_not_in_members(monkeypatch: MonkeyPatch) -> None:
     assert has_error(reporter, ErrorCode.LEAD_CROSS_REFERENCE)
 
 
+def test_rate_limited_github_team_repo_exits(monkeypatch: MonkeyPatch) -> None:
+    """Non-404 ``GithubException`` during repo checks should abort validation."""
+    reporter = Reporter()
+    members = load_members(reporter, MEMBERS_FOR_TEAMS)
+    teams = load_teams(reporter, "meta/validator/tests/teams/valid.toml")
+    assert no_errors(reporter)
+    monkeypatch.setattr(
+        teams_validator,
+        "get_github_client",
+        make_get_github_client(MockGithubClientRateLimitExceeded()),
+    )
+    with pytest.raises(SystemExit, match="1"):
+        TeamValidator(teams, members, reporter).validate()
+
+
 def test_team_github_repo_not_found(monkeypatch: MonkeyPatch) -> None:
     """A missing GitHub repo should be reported as ``GITHUB_REPO_NOT_FOUND``."""
     reporter = Reporter()
@@ -85,7 +103,7 @@ def test_team_github_repo_not_found(monkeypatch: MonkeyPatch) -> None:
         "get_github_client",
         make_get_github_client(MockGithubClientNotFound()),
     )
-    TeamValidator(teams, members, reporter).validate_sync()
+    TeamValidator(teams, members, reporter).validate()
     assert has_error(reporter, ErrorCode.GITHUB_REPO_NOT_FOUND)
 
 
