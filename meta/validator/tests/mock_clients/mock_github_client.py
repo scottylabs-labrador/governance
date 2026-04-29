@@ -11,17 +11,26 @@ if TYPE_CHECKING:
 
 
 class MockGithubClientValid:
-    """Mock GitHub client that treats all users as valid."""
+    """Mock GitHub client that treats all users and repos as valid."""
 
     def get_user(self, _github_username: str) -> None:
         """Pretend the looked up GitHub user exists."""
         return
+
+    def get_repo(self, _repo_name: str) -> None:
+        """Pretend the looked up repository exists."""
+        return
+
 
 class MockGithubClientNotFound:
     """Mock GitHub client that always raises not-found."""
 
     def get_user(self, _github_username: str) -> None:
         """Raise a not-found response to emulate invalid users."""
+        raise GithubException(status=404, data={"message": "Not Found"})
+
+    def get_repo(self, _repo_name: str) -> None:
+        """Raise a not-found response to emulate a missing repository."""
         raise GithubException(status=404, data={"message": "Not Found"})
 
 
@@ -36,12 +45,25 @@ class MockGithubClientRateLimitExceeded:
             headers={"x-ratelimit-remaining": "0"},
         )
 
+    def get_repo(self, _repo_name: str) -> None:
+        """Raise a GitHub rate-limit response for repository reads."""
+        raise GithubException(
+            status=403,
+            data={"message": "API rate limit exceeded"},
+            headers={"x-ratelimit-remaining": "0"},
+        )
+
 
 class MockGithubClientUnexpectedError:
     """Mock GitHub client that always raises an unexpected exception."""
 
     def get_user(self, _github_username: str) -> None:
         """Raise a non-GitHub exception to hit the generic failure path."""
+        msg = "unexpected github client failure"
+        raise RuntimeError(msg)
+
+    def get_repo(self, _repo_name: str) -> None:
+        """Raise a non-GitHub exception for repository reads."""
         msg = "unexpected github client failure"
         raise RuntimeError(msg)
 
