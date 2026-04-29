@@ -15,6 +15,7 @@ dev = [
 test = ["pytest>=8.3.5", "pytest-cov>=7.1.0"]
 validator = ["httpx>=0.28.1", "pygithub>=2.9.0", "python-keycloak>=7.1.0"]
 codeowners-synchronizer = ["pygithub>=2.9.0"]
+slack-synchronizer = ["slack-sdk>=3.41.0"]
 
 [build-system]
 requires = ["hatchling"]
@@ -29,6 +30,7 @@ validate = "meta.validator.src:main"
 test = "meta.tests:main"
 lint = "meta.linter:main"
 sync-codeowners = "meta.synchronizers.codeowners:main"
+sync-slack = "meta.synchronizers.slack:main"
 
 [tool.ruff]
 lint.select = ["ALL"]

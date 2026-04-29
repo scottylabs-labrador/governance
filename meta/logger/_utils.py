@@ -47,10 +47,10 @@ def log_team_sync() -> Callable[[Callable[P, R]], Callable[P, R]]:
 
         @wraps(func)
         def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
-            team = args[1]
+            team = args[2]
             if not isinstance(team, Team):
                 # Raise an error here since this is purely a programming error
-                msg = "Second argument must be a Team"
+                msg = "Third argument must be a Team"
                 raise TypeError(msg)
 
             logger = get_app_logger()
