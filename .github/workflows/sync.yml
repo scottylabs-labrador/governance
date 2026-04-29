@@ -35,7 +35,6 @@ jobs:
       KEYCLOAK_REALM: ${{ secrets.KEYCLOAK_REALM }}
       KEYCLOAK_CLIENT_ID: ${{ secrets.KEYCLOAK_CLIENT_ID }}
       KEYCLOAK_USER_REALM: ${{ secrets.KEYCLOAK_USER_REALM }}
-      SYNC_GITHUB_TOKEN: ${{ secrets.SYNC_GITHUB_TOKEN }}
 
     steps:
       - name: Checkout repository
