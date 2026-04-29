@@ -23,6 +23,12 @@ if TYPE_CHECKING:
 class MemberValidationError(Exception):
     """Raised when validation fails for a single member."""
 
+    message: str
+
+    def __init__(self, message: str) -> None:
+        """Initialize a validation error."""
+        self.message = message
+
 
 class MemberValidator:
     """Run contributor validation and record results."""
@@ -41,7 +47,8 @@ class MemberValidator:
         """Validate all members in parallel."""
         try:
             asyncio.run(self._validate_async())
-        except MemberValidationError:
+        except MemberValidationError as e:
+            self.logger.exception(e.message)
             sys.exit(1)
 
     async def _validate_async(self) -> None:
@@ -77,17 +84,11 @@ class MemberValidator:
                 )
                 return
 
-            self.logger.exception(
-                "Error validating GitHub username: %s",
-                github_username,
-            )
-            raise MemberValidationError from e
+            error_message = f"Unexpected GitHub API error status: {e.status}"
+            raise MemberValidationError(error_message) from e
         except Exception as e:
-            self.logger.exception(
-                "Error validating GitHub username: %s",
-                github_username,
-            )
-            raise MemberValidationError from e
+            error_message = f"Unexpected GitHub API error: {e}"
+            raise MemberValidationError(error_message) from e
 
     def validate_keycloak(self, github_username: str, member: Member) -> None:
         """Validate that the Andrew ID maps to a user in Keycloak."""
@@ -136,8 +137,5 @@ class MemberValidator:
                 return
 
         except Exception as e:
-            self.logger.exception(
-                "Error validating Keycloak: %s",
-                andrew_id,
-            )
-            raise MemberValidationError from e
+            error_message = f"Unexpected Keycloak API error: {e}"
+            raise MemberValidationError(error_message) from e
