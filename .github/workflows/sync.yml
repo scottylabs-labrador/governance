@@ -9,6 +9,10 @@ jobs:
   sync-codeowners:
     name: Sync Codeowners
     runs-on: ubuntu-latest
+
+    env:
+      SYNC_GITHUB_TOKEN: ${{ secrets.SYNC_GITHUB_TOKEN }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
