@@ -19,6 +19,9 @@ from meta.validator.tests.mock_clients.mock_github_client import (
     make_get_github_client,
 )
 from meta.validator.tests.mock_clients.mock_keycloak_client import (
+    MockKeycloakClientGithubUnexpectedError,
+    MockKeycloakClientMismatchedGithub,
+    MockKeycloakClientMissingGithub,
     MockKeycloakClientUnexpectedError,
     MockKeycloakClientUserNotFound,
     MockKeycloakClientValid,
@@ -37,6 +40,32 @@ def test_member_valid(monkeypatch: MonkeyPatch) -> None:
 
     mock_github = MockGithubClientValid()
     mock_keycloak = MockKeycloakClientValid()
+    monkeypatch.setattr(
+        members_validator,
+        "get_github_client",
+        make_get_github_client(mock_github),
+    )
+    monkeypatch.setattr(
+        members_validator,
+        "get_keycloak_client",
+        make_get_keycloak_client(mock_keycloak),
+    )
+    MemberValidator(members, reporter).validate()
+    assert no_errors(reporter)
+
+
+def test_member_github_username_match_is_case_insensitive(
+    monkeypatch: MonkeyPatch,
+) -> None:
+    """Keycloak GitHub login may differ in case from the members file stem."""
+    reporter = Reporter()
+    members = load_members(reporter, "meta/validator/tests/members/valid.toml")
+    assert no_errors(reporter)
+
+    mock_github = MockGithubClientValid()
+    mock_keycloak = MockKeycloakClientValid(
+        github_username_by_andrew_id={"valid": "VaLiD"},
+    )
     monkeypatch.setattr(
         members_validator,
         "get_github_client",
@@ -165,6 +194,60 @@ def test_not_found_keycloak_username(monkeypatch: MonkeyPatch) -> None:
     assert has_error(reporter, ErrorCode.INVALID_KEYCLOAK_USERNAME)
 
 
+def test_missing_keycloak_github(monkeypatch: MonkeyPatch) -> None:
+    """A Keycloak user without GitHub federation is an error."""
+    reporter = Reporter()
+    members = load_members(
+        reporter,
+        "meta/validator/tests/members/for_teams/alice.toml",
+    )
+    assert no_errors(reporter)
+
+    mock_github = MockGithubClientValid()
+    mock_keycloak = MockKeycloakClientMissingGithub()
+    monkeypatch.setattr(
+        members_validator,
+        "get_github_client",
+        make_get_github_client(mock_github),
+    )
+    monkeypatch.setattr(
+        members_validator,
+        "get_keycloak_client",
+        make_get_keycloak_client(mock_keycloak),
+    )
+
+    MemberValidator(members, reporter).validate()
+
+    assert has_error(reporter, ErrorCode.MISSING_KEYCLOAK_GITHUB)
+
+
+def test_mismatched_keycloak_github(monkeypatch: MonkeyPatch) -> None:
+    """Keycloak GitHub login must match the member file stem."""
+    reporter = Reporter()
+    members = load_members(
+        reporter,
+        "meta/validator/tests/members/for_teams/alice.toml",
+    )
+    assert no_errors(reporter)
+
+    mock_github = MockGithubClientValid()
+    mock_keycloak = MockKeycloakClientMismatchedGithub()
+    monkeypatch.setattr(
+        members_validator,
+        "get_github_client",
+        make_get_github_client(mock_github),
+    )
+    monkeypatch.setattr(
+        members_validator,
+        "get_keycloak_client",
+        make_get_keycloak_client(mock_keycloak),
+    )
+
+    MemberValidator(members, reporter).validate()
+
+    assert has_error(reporter, ErrorCode.MISMATCHED_KEYCLOAK_GITHUB)
+
+
 def test_unexpected_keycloak_client_error_exits(
     monkeypatch: MonkeyPatch,
 ) -> None:
@@ -178,6 +261,34 @@ def test_unexpected_keycloak_client_error_exits(
 
     mock_github = MockGithubClientValid()
     mock_keycloak = MockKeycloakClientUnexpectedError()
+    monkeypatch.setattr(
+        members_validator,
+        "get_github_client",
+        make_get_github_client(mock_github),
+    )
+    monkeypatch.setattr(
+        members_validator,
+        "get_keycloak_client",
+        make_get_keycloak_client(mock_keycloak),
+    )
+
+    with pytest.raises(SystemExit, match="1"):
+        MemberValidator(members, reporter).validate()
+
+
+def test_unexpected_keycloak_github_link_error_exits(
+    monkeypatch: MonkeyPatch,
+) -> None:
+    """Errors while reading GitHub from Keycloak should abort validation."""
+    reporter = Reporter()
+    members = load_members(
+        reporter,
+        "meta/validator/tests/members/for_teams/alice.toml",
+    )
+    assert no_errors(reporter)
+
+    mock_github = MockGithubClientValid()
+    mock_keycloak = MockKeycloakClientGithubUnexpectedError()
     monkeypatch.setattr(
         members_validator,
         "get_github_client",
