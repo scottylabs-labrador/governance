@@ -261,6 +261,8 @@ dev = [
 ]
 slack-synchronizer = [
     { name = "certifi" },
+    { name = "pygithub" },
+    { name = "python-keycloak" },
     { name = "slack-sdk" },
 ]
 test = [
@@ -290,6 +292,8 @@ dev = [
 ]
 slack-synchronizer = [
     { name = "certifi", specifier = ">=2026.4.22" },
+    { name = "pygithub", specifier = ">=2.9.0" },
+    { name = "python-keycloak", specifier = ">=7.1.0" },
     { name = "slack-sdk", specifier = ">=3.41.0" },
 ]
 test = [
