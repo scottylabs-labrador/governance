@@ -19,6 +19,8 @@ class ErrorCode(Enum):
     MEMBER_CROSS_REFERENCE = "A member in team missing from members/"
     INVALID_GITHUB_USERNAME = "Invalid GitHub username"
     INVALID_KEYCLOAK_USERNAME = "Invalid Keycloak username"
+    MISSING_KEYCLOAK_GITHUB = "Missing GitHub username in Keycloak"
+    MISMATCHED_KEYCLOAK_GITHUB = "Mismatched GitHub username in Keycloak"
 
 
 class Reporter:

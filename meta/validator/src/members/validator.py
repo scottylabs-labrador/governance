@@ -75,7 +75,7 @@ class MemberValidator:
     def validate_keycloak_username(self) -> None:
         """Validate that the Andrew ID maps to a user in Keycloak."""
         keycloak_client = get_keycloak_client()
-        for member in self.members.values():
+        for github_username, member in self.members.items():
             andrew_id = member.andrew_id
             if not andrew_id:
                 continue
@@ -88,6 +88,28 @@ class MemberValidator:
                         ErrorCode.INVALID_KEYCLOAK_USERNAME,
                         f"User {andrew_id} not found in Keycloak!",
                     )
+                    continue
+
+                keycloak_github_username = keycloak_client.get_user_github_username(
+                    user,
+                )
+                if keycloak_github_username is None:
+                    self.reporter.insert_error(
+                        member.file_path,
+                        ErrorCode.MISSING_KEYCLOAK_GITHUB,
+                        f"User {andrew_id} is not linked to a GitHub account in "
+                        f"Keycloak",
+                    )
+                    continue
+
+                if github_username.lower() != keycloak_github_username.lower():
+                    self.reporter.insert_error(
+                        member.file_path,
+                        ErrorCode.MISMATCHED_KEYCLOAK_GITHUB,
+                        f"User {andrew_id} linked to a different GitHub username in "
+                        f"Keycloak: {keycloak_github_username} != {github_username}!",
+                    )
+                    continue
             except Exception:
                 self.logger.exception(
                     "Error validating Keycloak username: %s",

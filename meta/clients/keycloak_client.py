@@ -76,3 +76,15 @@ class KeycloakClient:
 
         # Used `exact` = True, so we should only have one user.
         return cast("str | None", users[0]["id"])
+
+    def get_user_github_username(self, user_id: str) -> str | None:
+        """Get the GitHub username by Keycloak user ID."""
+        social_logins = self.keycloak_admin.get_user_social_logins(user_id=user_id)
+        if not social_logins:
+            return None
+
+        for login in social_logins:
+            if login["identityProvider"] == "github":
+                return cast("str", login["userName"])
+
+        return None
