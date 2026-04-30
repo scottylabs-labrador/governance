@@ -1,6 +1,50 @@
+# For each team, create a team for all members and a sub-team for admins.
+
 resource "github_team" "teams" {
   for_each    = var.teams_data
   name        = each.value.name
   description = each.value.description
   privacy     = "closed" # Visible to all members of the organization
+}
+
+resource "github_team" "admin_teams" {
+  for_each       = var.teams_data
+  name           = "${each.value.name} Admins"
+  privacy        = "closed" # Visible to all members of the organization
+  parent_team_id = github_team.teams[each.key].id
+}
+
+# Team memberships
+locals {
+  team_member_memberships = merge([
+    for team_slug, team in var.teams_data : {
+      for username in team.members.github_usernames :
+      "${team_slug}:${username}" => {
+        team_slug = team_slug
+        username  = username
+      }
+    }
+  ]...)
+
+  team_admin_memberships = merge([
+    for team_slug, team in var.teams_data : {
+      for username in team.admins.github_usernames :
+      "${team_slug}:${username}" => {
+        team_slug = team_slug
+        username  = username
+      }
+    }
+  ]...)
+}
+
+resource "github_team_membership" "team_memberships" {
+  for_each = local.team_member_memberships
+  team_id  = github_team.teams[each.value.team_slug].id
+  username = each.value.username
+}
+
+resource "github_team_membership" "team_admins_memberships" {
+  for_each = local.team_admin_memberships
+  team_id  = github_team.admin_teams[each.value.team_slug].id
+  username = each.value.username
 }
