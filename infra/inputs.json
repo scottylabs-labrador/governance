@@ -1,23 +1,4 @@
 {
-  "leadership": {
-    "members": {
-      "github_usernames": [
-        "Yuxiang-Huang"
-      ],
-      "andrew_ids": [
-        "yh4"
-      ]
-    },
-    "admins": {
-      "github_usernames": [
-        "Yuxiang-Huang"
-      ],
-      "andrew_ids": [
-        "yh4"
-      ]
-    },
-    "create_oidc_clients": false
-  },
   "governance": {
     "members": {
       "github_usernames": [
@@ -35,6 +16,31 @@
         "yh4"
       ]
     },
+    "repos": [
+      "governance"
+    ],
+    "create_oidc_clients": false
+  },
+  "leadership": {
+    "members": {
+      "github_usernames": [
+        "Yuxiang-Huang"
+      ],
+      "andrew_ids": [
+        "yh4"
+      ]
+    },
+    "admins": {
+      "github_usernames": [
+        "Yuxiang-Huang"
+      ],
+      "andrew_ids": [
+        "yh4"
+      ]
+    },
+    "repos": [
+      "wiki"
+    ],
     "create_oidc_clients": false
   },
   "cmuresearch": {
@@ -50,6 +56,7 @@
       ],
       "github_usernames": []
     },
+    "repos": [],
     "create_oidc_clients": true
   },
   "cmuservice": {
@@ -65,9 +72,10 @@
       ],
       "github_usernames": []
     },
+    "repos": [],
+    "create_oidc_clients": true,
     "website": "https://cmuservice.shop",
-    "server": "https://cmuservice.shop",
-    "create_oidc_clients": true
+    "server": "https://cmuservice.shop"
   },
   "collegecart": {
     "members": {
@@ -88,9 +96,10 @@
       ],
       "github_usernames": []
     },
+    "repos": [],
+    "create_oidc_clients": true,
     "website": "https://collegecart.org",
-    "server": "https://collegecart.org",
-    "create_oidc_clients": true
+    "server": "https://collegecart.org"
   },
   "cmustudy": {
     "members": {
@@ -105,8 +114,9 @@
       ],
       "github_usernames": []
     },
+    "repos": [],
+    "create_oidc_clients": true,
     "website": "https://study.scottylabs.org",
-    "server": "https://study.scottylabs.org",
-    "create_oidc_clients": true
+    "server": "https://study.scottylabs.org"
   }
 }
