@@ -28,10 +28,7 @@
         ]
       },
       "repos": [
-        {
-          "name": "governance",
-          "description": "Definition and automation of ScottyLabs Labrador's governance model"
-        }
+        "governance"
       ],
       "create_oidc_clients": false
     },
@@ -56,10 +53,7 @@
         ]
       },
       "repos": [
-        {
-          "name": "wiki",
-          "description": "A central hub for ScottyLabs Labrador documentations"
-        }
+        "wiki"
       ],
       "create_oidc_clients": false
     },
