@@ -101,6 +101,14 @@ class InfraSynchronizer(AbstractSynchronizer):
     def generate_infra_file(self) -> str:
         """Generate the infrastructure file."""
         data: dict[str, Any] = {}
+
+        data["members"] = {}
+        data["members"]["admins"] = self.teams["leadership"].leads
+        data["members"]["non-admins"] = list(
+            self.members.keys() - self.teams["leadership"].leads,
+        )
+
+        data["teams"] = {}
         for team_slug, team in self.teams.items():
             entry: dict[str, Any] = {
                 "members": self._get_users(team.members),
@@ -115,9 +123,9 @@ class InfraSynchronizer(AbstractSynchronizer):
             if team.server:
                 entry["server"] = team.server
 
-            data[team_slug] = entry
+            data["teams"][team_slug] = entry
 
-        data |= LEGACY_DATA
+        data["teams"] |= LEGACY_DATA
 
         return json.dumps(data, indent=2) + "\n"
 
