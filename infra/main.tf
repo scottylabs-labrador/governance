@@ -50,7 +50,9 @@ module "secrets" {
   leadership_group_name = var.leadership_group_name
 
   # Data
-  team_slugs = toset(keys(local.non_leadership_teams_data))
+  team_slugs               = toset(keys(local.non_leadership_teams_data))
+  team_oidc_client_ids     = module.keycloak.team_oidc_client_ids
+  team_oidc_client_secrets = module.keycloak.team_oidc_client_secrets
 }
 
 module "github" {
