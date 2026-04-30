@@ -22,45 +22,47 @@ from .abstract import AbstractSynchronizer
 LEGACY_TEAMS_DATA = {
     "cmuresearch": {
         "members": {
-            "andrew-ids": ["bryung"],
-            "github-usernames": [],
+            "andrew_ids": ["bryung"],
+            "github_usernames": [],
         },
         "admins": {
-            "andrew-ids": ["bryung"],
-            "github-usernames": [],
+            "andrew_ids": ["bryung"],
+            "github_usernames": [],
         },
     },
     "cmuservice": {
         "members": {
-            "andrew-ids": ["benliu"],
-            "github-usernames": [],
+            "andrew_ids": ["benliu"],
+            "github_usernames": [],
         },
         "admins": {
-            "andrew-ids": ["benliu"],
-            "github-usernames": [],
+            "andrew_ids": ["benliu"],
+            "github_usernames": [],
         },
         "website": "https://cmuservice.shop",
         "server": "https://cmuservice.shop",
     },
     "collegecart": {
         "members": {
-            "andrew-ids": ["yingyiw", "nayonk", "rushabhj", "rkurihar", "mbatkhuu"],
-            "github-usernames": [],
+            "andrew_ids": ["yingyiw", "nayonk", "rushabhj", "rkurihar", "mbatkhuu"],
+            "github_usernames": [],
         },
         "admins": {
-            "andrew-ids": ["yingyiw", "nayonk", "rushabhj"],
-            "github-usernames": [],
+            "andrew_ids": ["yingyiw", "nayonk", "rushabhj"],
+            "github_usernames": [],
         },
         "website": "https://collegecart.org",
         "server": "https://collegecart.org",
     },
     "cmustudy": {
-        "members": [
-            "annadavi",
-        ],
-        "admins": [
-            "annadavi",
-        ],
+        "members": {
+            "andrew_ids": ["annadavi"],
+            "github_usernames": [],
+        },
+        "admins": {
+            "andrew_ids": ["annadavi"],
+            "github_usernames": [],
+        },
         "website": "https://study.scottylabs.org",
         "server": "https://study.scottylabs.org",
     },
@@ -95,19 +97,27 @@ class InfraSynchronizer(AbstractSynchronizer):
             "members": self._get_users(self.teams["leadership"].members),
             "admins": self._get_users(self.teams["leadership"].leads),
         }
-        data["teams"] = {
-            team_slug: {
+
+        data["teams"] = {}
+        for team_slug, team in self.teams.items():
+            if team_slug == "leadership":
+                continue
+
+            entry: dict[str, Any] = {
                 "members": self._get_users(team.members),
                 "admins": self._get_users(team.leads),
-                "website": team.website,
-                "server": team.server,
             }
-            for team_slug, team in self.teams.items()
-            if team_slug != "leadership"
-        }
+
+            if team.website:
+                entry["website"] = team.website
+
+            if team.server:
+                entry["server"] = team.server
+
+            data["teams"][team_slug] = entry
 
         for team_slug, team_data in LEGACY_TEAMS_DATA.items():
-            data["teams"][team_slug] = team_data  # ty:ignore[invalid-assignment]
+            data["teams"][team_slug] = team_data
 
         return json.dumps(data, indent=2) + "\n"
 

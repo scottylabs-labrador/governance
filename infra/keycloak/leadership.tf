@@ -11,7 +11,7 @@ resource "keycloak_group" "leadership" {
 resource "keycloak_group_memberships" "leadership_members" {
   realm_id = keycloak_realm.labrador.id
   group_id = keycloak_group.leadership.id
-  members  = var.leadership_data.members
+  members  = var.leadership_data.members.andrew_ids
 }
 
 data "keycloak_role" "realm_read_only" {
@@ -35,7 +35,7 @@ resource "keycloak_group" "leadership_admins" {
 resource "keycloak_group_memberships" "leadership_admins" {
   realm_id = keycloak_realm.labrador.id
   group_id = keycloak_group.leadership_admins.id
-  members  = var.leadership_data.admins
+  members  = var.leadership_data.admins.andrew_ids
 }
 
 data "keycloak_role" "realm_admin" {

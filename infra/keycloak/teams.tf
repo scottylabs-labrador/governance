@@ -28,14 +28,14 @@ resource "keycloak_group_memberships" "team_memberships" {
   for_each = local.team_slugs
   realm_id = keycloak_realm.labrador.id
   group_id = keycloak_group.team_groups[each.key].id
-  members  = var.teams_data[each.key].members
+  members  = var.teams_data[each.key].members.andrew_ids
 }
 
 resource "keycloak_group_memberships" "team_admins_memberships" {
   for_each = local.team_slugs
   realm_id = keycloak_realm.labrador.id
   group_id = keycloak_group.team_admins_groups[each.key].id
-  members  = var.teams_data[each.key].admins
+  members  = var.teams_data[each.key].admins.andrew_ids
 }
 
 # Team OIDC clients

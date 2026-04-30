@@ -346,6 +346,9 @@ google-synchronizer = [
     { name = "google-auth-httplib2" },
     { name = "google-auth-oauthlib" },
 ]
+infra-synchronizer = [
+    { name = "pygithub" },
+]
 slack-synchronizer = [
     { name = "certifi" },
     { name = "python-keycloak" },
@@ -380,6 +383,7 @@ google-synchronizer = [
     { name = "google-auth-httplib2", specifier = ">=0.3.0" },
     { name = "google-auth-oauthlib", specifier = ">=1.2.3" },
 ]
+infra-synchronizer = [{ name = "pygithub", specifier = ">=2.9.0" }]
 slack-synchronizer = [
     { name = "certifi", specifier = ">=2026.4.22" },
     { name = "python-keycloak", specifier = ">=7.1.0" },
