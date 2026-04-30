@@ -14,21 +14,7 @@ variable "leadership_group_name" {
   type        = string
 }
 
-variable "leadership_data" {
-  description = "Leadership data"
-  type = object({
-    members = object({
-      andrew_ids       = list(string)
-      github_usernames = list(string)
-    })
-    admins = object({
-      andrew_ids       = list(string)
-      github_usernames = list(string)
-    })
-  })
-}
-
-variable "teams_data" {
+variable "inputs_data" {
   description = "Teams data"
   type = map(object({
     members = object({

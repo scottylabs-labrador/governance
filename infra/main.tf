@@ -28,8 +28,7 @@ module "keycloak" {
   slack_client_secret = var.slack_client_secret
 
   # Data
-  leadership_data = local.leadership_data
-  teams_data      = local.teams_data
+  inputs_data = local.inputs_data
 }
 
 module "secrets" {
