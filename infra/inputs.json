@@ -34,69 +34,73 @@
         "andrew_ids": [
           "yh4"
         ]
-      },
-      "website": null,
-      "server": null
+      }
     },
     "cmuresearch": {
       "members": {
-        "andrew-ids": [
+        "andrew_ids": [
           "bryung"
         ],
-        "github-usernames": []
+        "github_usernames": []
       },
       "admins": {
-        "andrew-ids": [
+        "andrew_ids": [
           "bryung"
         ],
-        "github-usernames": []
+        "github_usernames": []
       }
     },
     "cmuservice": {
       "members": {
-        "andrew-ids": [
+        "andrew_ids": [
           "benliu"
         ],
-        "github-usernames": []
+        "github_usernames": []
       },
       "admins": {
-        "andrew-ids": [
+        "andrew_ids": [
           "benliu"
         ],
-        "github-usernames": []
+        "github_usernames": []
       },
       "website": "https://cmuservice.shop",
       "server": "https://cmuservice.shop"
     },
     "collegecart": {
       "members": {
-        "andrew-ids": [
+        "andrew_ids": [
           "yingyiw",
           "nayonk",
           "rushabhj",
           "rkurihar",
           "mbatkhuu"
         ],
-        "github-usernames": []
+        "github_usernames": []
       },
       "admins": {
-        "andrew-ids": [
+        "andrew_ids": [
           "yingyiw",
           "nayonk",
           "rushabhj"
         ],
-        "github-usernames": []
+        "github_usernames": []
       },
       "website": "https://collegecart.org",
       "server": "https://collegecart.org"
     },
     "cmustudy": {
-      "members": [
-        "annadavi"
-      ],
-      "admins": [
-        "annadavi"
-      ],
+      "members": {
+        "andrew_ids": [
+          "annadavi"
+        ],
+        "github-usernames": []
+      },
+      "admins": {
+        "andrew_ids": [
+          "annadavi"
+        ],
+        "github_usernames": []
+      },
       "website": "https://study.scottylabs.org",
       "server": "https://study.scottylabs.org"
     }
