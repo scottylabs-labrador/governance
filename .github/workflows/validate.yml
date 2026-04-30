@@ -6,14 +6,9 @@ on:
   push:
     branches:
       - main
-
-  # Run this workflow in the default branch so the secrets are available and
-  # that we are not running untrusted code.
-  workflow_run:
-    workflows:
-      - Validate PR Requirements
-    types:
-      - completed
+  pull_request_target:
+    branches:
+      - main
 
 jobs:
   validate-editorconfig:
