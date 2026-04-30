@@ -1,19 +1,14 @@
 """Codeowners synchronizer."""
 
-import sys
-from http import HTTPStatus
 from typing import TYPE_CHECKING, override
 
 from dotenv import load_dotenv
-from github import GithubException
 
-from meta.clients.github_client import get_github_client
+from meta.clients.github_client import get_github_client, get_github_file
 from meta.logger import log_operation, print_section
 from meta.synchronizers.abstract import AbstractSynchronizer
 
 if TYPE_CHECKING:
-    from github.Repository import Repository
-
     from meta.models import Team
 
 
@@ -41,7 +36,7 @@ class CodeownersSynchronizer(AbstractSynchronizer):
 
         # Get the current codeowners file
         repo = self.g.get_repo(self.REPO_NAME)
-        current_codeowners_file, sha = self.get_current_codeowners_file(repo)
+        current_codeowners_file, sha = get_github_file(repo, self.CODEOWNERS_FILE_PATH)
         if new_codeowners_file == current_codeowners_file:
             self.logger.debug("No changes to the codeowners file. Skipping...\n")
             return
@@ -108,38 +103,6 @@ class CodeownersSynchronizer(AbstractSynchronizer):
         for lead in sorted(team.leads):
             codeowners_pattern += f" @{lead}"
         return codeowners_pattern
-
-    def get_current_codeowners_file(
-        self,
-        repo: Repository,
-    ) -> tuple[str | None, str | None]:
-        """Get the current codeowners file from the repository.
-
-        Returns:
-            tuple[str | None, str | None]: The current codeowners file content
-            and the sha of the file.
-
-        Notes:
-            Returns (None, None) if we want to create the CODEOWNERS file.
-
-        """
-        try:
-            contents = repo.get_contents(".github/CODEOWNERS")
-        except GithubException as e:
-            if e.status == HTTPStatus.NOT_FOUND:
-                return None, None
-
-            self.logger.exception("Unexpected GitHub API error")
-            sys.exit(1)
-
-        # Error if the contents is a list (i.e. a directory)
-        if isinstance(contents, list):
-            return None, None
-
-        # Return the sha and content of the codeowners file
-        sha = contents.sha
-        current_content = contents.decoded_content.decode("utf-8")
-        return current_content, sha
 
 
 def main() -> None:
