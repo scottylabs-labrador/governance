@@ -19,7 +19,7 @@ from meta.logger import print_section
 from .abstract import AbstractSynchronizer
 
 # Used for backwards compatibility
-LEGACY_TEAMS_DATA = {
+LEGACY_DATA = {
     "cmuresearch": {
         "members": {
             "andrew_ids": ["bryung"],
@@ -29,6 +29,7 @@ LEGACY_TEAMS_DATA = {
             "andrew_ids": ["bryung"],
             "github_usernames": [],
         },
+        "repos": [],
         "create_oidc_clients": True,
     },
     "cmuservice": {
@@ -40,9 +41,10 @@ LEGACY_TEAMS_DATA = {
             "andrew_ids": ["benliu"],
             "github_usernames": [],
         },
+        "repos": [],
+        "create_oidc_clients": True,
         "website": "https://cmuservice.shop",
         "server": "https://cmuservice.shop",
-        "create_oidc_clients": True,
     },
     "collegecart": {
         "members": {
@@ -53,9 +55,10 @@ LEGACY_TEAMS_DATA = {
             "andrew_ids": ["yingyiw", "nayonk", "rushabhj"],
             "github_usernames": [],
         },
+        "repos": [],
+        "create_oidc_clients": True,
         "website": "https://collegecart.org",
         "server": "https://collegecart.org",
-        "create_oidc_clients": True,
     },
     "cmustudy": {
         "members": {
@@ -66,9 +69,10 @@ LEGACY_TEAMS_DATA = {
             "andrew_ids": ["annadavi"],
             "github_usernames": [],
         },
+        "repos": [],
+        "create_oidc_clients": True,
         "website": "https://study.scottylabs.org",
         "server": "https://study.scottylabs.org",
-        "create_oidc_clients": True,
     },
 }
 
@@ -97,19 +101,11 @@ class InfraSynchronizer(AbstractSynchronizer):
     def generate_infra_file(self) -> str:
         """Generate the infrastructure file."""
         data: dict[str, Any] = {}
-        data["leadership"] = {
-            "members": self._get_users(self.teams["leadership"].members),
-            "admins": self._get_users(self.teams["leadership"].leads),
-        }
-
-        data["teams"] = {}
         for team_slug, team in self.teams.items():
-            if team_slug == "leadership":
-                continue
-
             entry: dict[str, Any] = {
                 "members": self._get_users(team.members),
                 "admins": self._get_users(team.leads),
+                "repos": team.repos,
                 "create_oidc_clients": team.create_oidc_clients,
             }
 
@@ -119,10 +115,9 @@ class InfraSynchronizer(AbstractSynchronizer):
             if team.server:
                 entry["server"] = team.server
 
-            data["teams"][team_slug] = entry
+            data[team_slug] = entry
 
-        for team_slug, team_data in LEGACY_TEAMS_DATA.items():
-            data["teams"][team_slug] = team_data
+        data |= LEGACY_DATA
 
         return json.dumps(data, indent=2) + "\n"
 
