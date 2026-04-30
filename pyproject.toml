@@ -10,6 +10,7 @@ dev = ["mypy>=1.19.1", "ruff>=0.15.5", "types-colorama>=0.4.15.20250801"]
 test = ["pytest>=8.3.5", "pytest-cov>=7.1.0"]
 validator = ["httpx>=0.28.1", "pygithub>=2.9.0", "python-keycloak>=7.1.0"]
 codeowners-synchronizer = ["pygithub>=2.9.0"]
+infra-synchronizer = ["pygithub>=2.9.0"]
 slack-synchronizer = [
   "slack-sdk>=3.41.0",
   "certifi>=2026.4.22",
