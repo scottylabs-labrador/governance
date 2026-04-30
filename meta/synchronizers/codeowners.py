@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING, override
 
 from dotenv import load_dotenv
 
-from meta.clients.github_client import get_github_client, get_github_file
-from meta.logger import log_operation, print_section
+from meta.clients.github_client import create_or_update_github_file
+from meta.logger import print_section
 from meta.synchronizers.abstract import AbstractSynchronizer
 
 if TYPE_CHECKING:
@@ -15,7 +15,6 @@ if TYPE_CHECKING:
 class CodeownersSynchronizer(AbstractSynchronizer):
     """Codeowners synchronizer."""
 
-    REPO_NAME = "scottylabs-labrador/Governance"
     CODEOWNERS_FILE_PATH = ".github/CODEOWNERS"
     COMMIT_MESSAGE = "chore: auto-update CODEOWNERS"
     FILE_PATH = "meta/synchronizers/codeowners.py"
@@ -25,7 +24,6 @@ class CodeownersSynchronizer(AbstractSynchronizer):
     ) -> None:
         """Initialize the codeowners synchronizer."""
         super().__init__()
-        self.g = get_github_client()
 
     @override
     def sync(self) -> None:
@@ -33,30 +31,11 @@ class CodeownersSynchronizer(AbstractSynchronizer):
 
         # Generate the new codeowners file
         new_codeowners_file = self.generate_codeowners_file()
-
-        # Get the current codeowners file
-        repo = self.g.get_repo(self.REPO_NAME)
-        current_codeowners_file, sha = get_github_file(repo, self.CODEOWNERS_FILE_PATH)
-        if new_codeowners_file == current_codeowners_file:
-            self.logger.debug("No changes to the codeowners file. Skipping...\n")
-            return
-
-        # Update or create the codeowners file
-        if sha:
-            with log_operation("update the codeowners file"):
-                repo.update_file(
-                    self.CODEOWNERS_FILE_PATH,
-                    self.COMMIT_MESSAGE,
-                    new_codeowners_file,
-                    sha,
-                )
-        else:
-            with log_operation("create the codeowners file"):
-                repo.create_file(
-                    self.CODEOWNERS_FILE_PATH,
-                    self.COMMIT_MESSAGE,
-                    new_codeowners_file,
-                )
+        create_or_update_github_file(
+            self.CODEOWNERS_FILE_PATH,
+            new_codeowners_file,
+            self.COMMIT_MESSAGE,
+        )
 
     def generate_codeowners_file(self) -> str:
         """Generate the CODEOWNERS file."""
