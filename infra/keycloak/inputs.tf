@@ -39,8 +39,9 @@ variable "teams_data" {
       andrew_ids       = list(string)
       github_usernames = list(string)
     })
-    website = optional(string, "")
-    server  = optional(string, "")
+    website             = optional(string, "")
+    server              = optional(string, "")
+    create_oidc_clients = bool
   }))
 }
 

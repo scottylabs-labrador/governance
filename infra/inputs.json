@@ -34,7 +34,8 @@
         "andrew_ids": [
           "yh4"
         ]
-      }
+      },
+      "create_oidc_clients": false
     },
     "cmuresearch": {
       "members": {
@@ -48,7 +49,8 @@
           "bryung"
         ],
         "github_usernames": []
-      }
+      },
+      "create_oidc_clients": true
     },
     "cmuservice": {
       "members": {
@@ -64,7 +66,8 @@
         "github_usernames": []
       },
       "website": "https://cmuservice.shop",
-      "server": "https://cmuservice.shop"
+      "server": "https://cmuservice.shop",
+      "create_oidc_clients": true
     },
     "collegecart": {
       "members": {
@@ -86,7 +89,8 @@
         "github_usernames": []
       },
       "website": "https://collegecart.org",
-      "server": "https://collegecart.org"
+      "server": "https://collegecart.org",
+      "create_oidc_clients": true
     },
     "cmustudy": {
       "members": {
@@ -102,7 +106,8 @@
         "github_usernames": []
       },
       "website": "https://study.scottylabs.org",
-      "server": "https://study.scottylabs.org"
+      "server": "https://study.scottylabs.org",
+      "create_oidc_clients": true
     }
   }
 }

@@ -29,6 +29,7 @@ LEGACY_TEAMS_DATA = {
             "andrew_ids": ["bryung"],
             "github_usernames": [],
         },
+        "create_oidc_clients": True,
     },
     "cmuservice": {
         "members": {
@@ -41,6 +42,7 @@ LEGACY_TEAMS_DATA = {
         },
         "website": "https://cmuservice.shop",
         "server": "https://cmuservice.shop",
+        "create_oidc_clients": True,
     },
     "collegecart": {
         "members": {
@@ -53,6 +55,7 @@ LEGACY_TEAMS_DATA = {
         },
         "website": "https://collegecart.org",
         "server": "https://collegecart.org",
+        "create_oidc_clients": True,
     },
     "cmustudy": {
         "members": {
@@ -65,6 +68,7 @@ LEGACY_TEAMS_DATA = {
         },
         "website": "https://study.scottylabs.org",
         "server": "https://study.scottylabs.org",
+        "create_oidc_clients": True,
     },
 }
 
@@ -106,6 +110,7 @@ class InfraSynchronizer(AbstractSynchronizer):
             entry: dict[str, Any] = {
                 "members": self._get_users(team.members),
                 "admins": self._get_users(team.leads),
+                "create_oidc_clients": team.create_oidc_clients,
             }
 
             if team.website:

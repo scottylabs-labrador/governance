@@ -46,7 +46,7 @@ locals {
     root_url    = "http://localhost:3000"
     redirects   = ["http://localhost/api/auth/oauth2/callback/keycloak"]
     web_origins = ["http://localhost"]
-  } }
+  } if var.teams_data[slug].create_oidc_clients }
 
   # Generate prod-ready clients
   prod_clients = { for k, v in var.teams_data : "${k}-prod" => {
@@ -54,7 +54,7 @@ locals {
     root_url    = v.website
     redirects   = ["${v.server}/api/auth/oauth2/callback/keycloak"]
     web_origins = [v.server]
-  } if v.website != "" && v.server != "" }
+  } if v.create_oidc_clients && v.website != "" && v.server != "" }
 
   # Merge them into one map
   all_clients = merge(local.local_clients, local.prod_clients)
