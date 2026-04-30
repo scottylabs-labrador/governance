@@ -1,56 +1,42 @@
 {
   "leadership": {
-    "members": [
-      "yh4"
-    ],
-    "admins": [
-      "yh4"
-    ]
-  },
-  "teams": {
-    "cmuresearch": {
-      "members": [
-        "bryung"
+    "members": {
+      "github_usernames": [
+        "Yuxiang-Huang"
       ],
-      "admins": [
-        "bryung"
+      "andrew_ids": [
+        "yh4"
       ]
     },
-    "cmuservice": {
-      "members": [
-        "benliu"
+    "admins": {
+      "github_usernames": [
+        "Yuxiang-Huang"
       ],
-      "admins": [
-        "benliu"
-      ],
-      "website": "https://cmuservice.shop",
-      "server": "https://cmuservice.shop"
-    },
-    "collegecart": {
-      "members": [
-        "yingyiw",
-        "nayonk",
-        "rushabhj",
-        "rkurihar",
-        "mbatkhuu"
-      ],
-      "admins": [
-        "yingyiw",
-        "nayonk",
-        "rushabhj"
-      ],
-      "website": "https://collegecart.org",
-      "server": "https://collegecart.org"
-    },
-    "cmustudy": {
-      "members": [
-        "annadavi"
-      ],
-      "admins": [
-        "annadavi"
-      ],
-      "website": "https://study.scottylabs.org",
-      "server": "https://study.scottylabs.org"
+      "andrew_ids": [
+        "yh4"
+      ]
+    }
+  },
+  "teams": {
+    "governance": {
+      "members": {
+        "github_usernames": [
+          "Yuxiang-Huang"
+        ],
+        "andrew_ids": [
+          "yh4"
+        ]
+      },
+      "admins": {
+        "github_usernames": [
+          "Yuxiang-Huang"
+        ],
+        "andrew_ids": [
+          "yh4"
+        ]
+      },
+      "website": null,
+      "server": null
     }
   }
 }
