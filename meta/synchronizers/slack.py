@@ -3,16 +3,13 @@
 Creates a Slack channel for each team and invites the team members to the channel.
 """
 
-import os
-import ssl
 import sys
 from typing import TYPE_CHECKING, cast, override
 
-import certifi
 from dotenv import load_dotenv
-from slack_sdk import WebClient
 
 from meta.clients.keycloak_client import get_keycloak_client
+from meta.clients.slack_client import SlackClient
 from meta.logger import (
     log_operation,
     log_team_sync,
@@ -42,52 +39,17 @@ class SlackSynchronizer(AbstractSynchronizer):
         # have permission to do so.
         # The bot client is used to invite users to channels since a user can't
         # invite themselves to a channel.
-        slack_user_token = os.getenv("SLACK_USER_TOKEN")
-        if not slack_user_token:
-            msg = "SLACK_USER_TOKEN is not set"
-            self.logger.critical(msg)
-            sys.exit(1)
-
-        slack_bot_token = os.getenv("SLACK_BOT_TOKEN")
-        if not slack_bot_token:
-            msg = "SLACK_BOT_TOKEN is not set"
-            self.logger.critical(msg)
-            sys.exit(1)
-
-        ssl_context = ssl.create_default_context(cafile=certifi.where())
-        self.user_client = WebClient(token=slack_user_token, ssl=ssl_context)
-        self.bot_client = WebClient(token=slack_bot_token, ssl=ssl_context)
-
-        self.channels = self.get_all_channels()
-
-    def get_all_channels(self) -> list[dict[str, str]]:
-        """Get all channels channels and their IDs."""
-        channels: list[dict[str, str]] = []
-        cursor: str | None = None
-        while True:
-            response = self.bot_client.conversations_list(
-                types="public_channel",
-                cursor=cursor,
-            )
-
-            channels.extend(
-                {"id": channel["id"], "name": channel["name"]}
-                for channel in response["channels"]
-            )
-
-            metadata = cast(
-                "dict[str, object]",
-                response.get("response_metadata"),
-            )
-            cursor = cast("str | None", metadata.get("next_cursor"))
-            if not cursor:
-                break
-
-        return channels
+        self.user = SlackClient(env_var_name="SLACK_USER_TOKEN")
+        self.bot = SlackClient(env_var_name="SLACK_BOT_TOKEN")
 
     @override
     def sync(self) -> None:
         print_section("Syncing Slack")
+
+        with log_operation("get all Slack channels"):
+            self.channels = self.bot.get_all_channels()
+        self.logger.info("Found %d Slack channels", len(self.channels))
+
         for team_slug, team in self.teams.items():
             # Leadership Slack channel is private and not managed by Governance
             if team_slug == "leadership":
@@ -133,7 +95,7 @@ class SlackSynchronizer(AbstractSynchronizer):
             return channel["id"]
 
         with log_operation(f"create Slack channel: {channel_name}"):
-            response = self.user_client.conversations_create(name=channel_name)
+            response = self.user.client.conversations_create(name=channel_name)
             return cast("str", response["channel"]["id"])
 
     def sync_channel(
@@ -144,7 +106,7 @@ class SlackSynchronizer(AbstractSynchronizer):
     ) -> None:
         """Invite members of a team to a Slack channel."""
         try:
-            info = self.bot_client.conversations_info(channel=channel_id)
+            info = self.bot.client.conversations_info(channel=channel_id)
         except Exception:
             self.logger.exception(
                 "Error getting info of %s Slack channel",
@@ -154,11 +116,11 @@ class SlackSynchronizer(AbstractSynchronizer):
 
         if not info["channel"]["is_member"]:
             with log_operation(f"join Slack channel: {channel_id}"):
-                self.bot_client.conversations_join(channel=channel_id)
+                self.bot.client.conversations_join(channel=channel_id)
 
         # Get the current members of the channel
         try:
-            response = self.bot_client.conversations_members(channel=channel_id)
+            response = self.bot.client.conversations_members(channel=channel_id)
         except Exception:
             self.logger.exception(
                 "Error getting members of %s Slack channel",
@@ -179,7 +141,7 @@ class SlackSynchronizer(AbstractSynchronizer):
         # Invite the users to the channel
         log_message = f"invite users to {team.name} Slack channel: {users}"
         with log_operation(log_message):
-            self.bot_client.conversations_invite(channel=channel_id, users=users)
+            self.bot.client.conversations_invite(channel=channel_id, users=users)
 
 
 def main() -> None:
