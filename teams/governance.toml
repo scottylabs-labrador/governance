@@ -4,7 +4,7 @@ create-oidc-clients = false
 
 [[repos]]
 name = "governance"
-description = "Definition and automation of the Labrador governance model"
+description = "Definition and automation of ScottyLabs Labrador's governance model"
 
 [[membership]]
 timeframe = "2026-2027"

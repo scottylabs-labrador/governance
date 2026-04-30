@@ -111,9 +111,11 @@ class InfraSynchronizer(AbstractSynchronizer):
         data["teams"] = {}
         for team_slug, team in self.teams.items():
             entry: dict[str, Any] = {
+                "name": team.name,
+                "description": team.description,
                 "members": self._get_users(team.members),
                 "admins": self._get_users(team.leads),
-                "repos": team.repos,
+                "repos": [repo.model_dump() for repo in team.repos],
                 "create_oidc_clients": team.create_oidc_clients,
             }
 

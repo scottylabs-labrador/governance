@@ -21,6 +21,8 @@ variable "members_data" {
 variable "teams_data" {
   description = "Teams data"
   type = map(object({
+    name        = string
+    description = string
     members = object({
       andrew_ids       = list(string)
       github_usernames = list(string)
@@ -29,7 +31,10 @@ variable "teams_data" {
       andrew_ids       = list(string)
       github_usernames = list(string)
     })
-    repos               = list(string)
+    repos = list(object({
+      name        = string
+      description = string
+    }))
     create_oidc_clients = bool
   }))
 }

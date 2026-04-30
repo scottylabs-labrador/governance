@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from meta.loaders.types import LoaderErrorCode, RecordFn
-from meta.models import Team
+from meta.models import Repo, Team
 
 from .key_ordering import KeyOrdering
 
@@ -47,10 +47,11 @@ def _load_team(file_path: str, data: dict[str, Any]) -> Team:
     first = data.get("membership", [])[0]
     payload: dict[str, Any] = {
         "name": data["name"],
+        "description": data["description"],
         "website": data.get("website"),
         "server": data.get("server"),
         "create_oidc_clients": data.get("create-oidc-clients", True),
-        "repos": [str(repo["name"]) for repo in data.get("repos", [])],
+        "repos": [Repo.model_validate(repo) for repo in data.get("repos", [])],
         "leads": [str(x) for x in first["leads"]],
         "members": [str(member["github-username"]) for member in first["members"]],
         "file_path": file_path,
