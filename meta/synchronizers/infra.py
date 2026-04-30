@@ -5,22 +5,27 @@ Generates the input.json file for the infrastructure.
 
 from __future__ import annotations
 
-import json
 from typing import Any, override
 
 from dotenv import load_dotenv
+from pydantic import BaseModel
 
 from meta.clients.github_client import (
     create_or_update_github_file,
     get_github_client,
 )
 from meta.logger import print_section
+from meta.models import (
+    Repo,  # noqa: TC001  # Pydantic needs `Repo` at runtime for `TeamData`.
+)
 
 from .abstract import AbstractSynchronizer
 
 # Used for backwards compatibility
 LEGACY_DATA = {
     "cmuresearch": {
+        "name": "CMU Research",
+        "description": "The CMU Research team.",
         "members": {
             "andrew_ids": ["bryung"],
             "github_usernames": [],
@@ -33,6 +38,8 @@ LEGACY_DATA = {
         "create_oidc_clients": True,
     },
     "cmuservice": {
+        "name": "CMU Service",
+        "description": "The CMU Service team.",
         "members": {
             "andrew_ids": ["benliu"],
             "github_usernames": [],
@@ -47,6 +54,8 @@ LEGACY_DATA = {
         "server": "https://cmuservice.shop",
     },
     "collegecart": {
+        "name": "CollegeCart",
+        "description": "The CollegeCart team.",
         "members": {
             "andrew_ids": ["yingyiw", "nayonk", "rushabhj", "rkurihar", "mbatkhuu"],
             "github_usernames": [],
@@ -61,6 +70,8 @@ LEGACY_DATA = {
         "server": "https://collegecart.org",
     },
     "cmustudy": {
+        "name": "CMU Study",
+        "description": "The CMU Study team.",
         "members": {
             "andrew_ids": ["annadavi"],
             "github_usernames": [],
@@ -75,6 +86,40 @@ LEGACY_DATA = {
         "server": "https://study.scottylabs.org",
     },
 }
+
+
+class InfraData(BaseModel):
+    """Infrastructure data."""
+
+    members: MembersData
+    teams: dict[str, TeamData]
+
+
+class MembersData(BaseModel):
+    """Member data."""
+
+    admins: list[str]
+    non_admins: list[str]
+
+
+class TeamData(BaseModel):
+    """Team data."""
+
+    name: str
+    description: str
+    members: TeamMembersData
+    admins: TeamMembersData
+    repos: list[Repo]
+    create_oidc_clients: bool
+    website: str | None = None
+    server: str | None = None
+
+
+class TeamMembersData(BaseModel):
+    """Team members data."""
+
+    github_usernames: list[str]
+    andrew_ids: list[str]
 
 
 class InfraSynchronizer(AbstractSynchronizer):
@@ -100,15 +145,12 @@ class InfraSynchronizer(AbstractSynchronizer):
 
     def generate_infra_file(self) -> str:
         """Generate the infrastructure file."""
-        data: dict[str, Any] = {}
-
-        data["members"] = {}
-        data["members"]["admins"] = self.teams["leadership"].leads
-        data["members"]["non_admins"] = list(
-            self.members.keys() - self.teams["leadership"].leads,
+        members_data = MembersData(
+            admins=self.teams["leadership"].leads,
+            non_admins=list(self.members.keys() - self.teams["leadership"].leads),
         )
 
-        data["teams"] = {}
+        teams_data = {}
         for team_slug, team in self.teams.items():
             entry: dict[str, Any] = {
                 "name": team.name,
@@ -117,33 +159,29 @@ class InfraSynchronizer(AbstractSynchronizer):
                 "admins": self._get_users(team.leads),
                 "repos": [repo.model_dump() for repo in team.repos],
                 "create_oidc_clients": team.create_oidc_clients,
+                "website": team.website,
+                "server": team.server,
             }
+            teams_data[team_slug] = TeamData.model_validate(entry)
 
-            if team.website:
-                entry["website"] = team.website
+        for team_slug, team_data in LEGACY_DATA.items():
+            teams_data[team_slug] = TeamData.model_validate(team_data)
 
-            if team.server:
-                entry["server"] = team.server
+        infra_data = InfraData(
+            members=members_data,
+            teams=teams_data,
+        )
+        return infra_data.model_dump_json(indent=2, exclude_none=True) + "\n"
 
-            data["teams"][team_slug] = entry
-
-        data["teams"] |= LEGACY_DATA
-
-        return json.dumps(data, indent=2) + "\n"
-
-    def _get_users(self, github_usernames: list[str]) -> dict[str, list[str]]:
+    def _get_users(self, github_usernames: list[str]) -> TeamMembersData:
         """Build users for one team."""
-        users: dict[str, list[str]] = {
-            "github_usernames": [],
-            "andrew_ids": [],
-        }
+        andrew_ids: list[str] = []
         for github_username in github_usernames:
-            users["github_usernames"].append(github_username)
             member = self.members.get(github_username)
             if member is None or member.andrew_id is None:
                 continue
-            users["andrew_ids"].append(member.andrew_id)
-        return users
+            andrew_ids.append(member.andrew_id)
+        return TeamMembersData(github_usernames=github_usernames, andrew_ids=andrew_ids)
 
 
 def main() -> None:
