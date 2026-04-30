@@ -37,6 +37,68 @@
       },
       "website": null,
       "server": null
+    },
+    "cmuresearch": {
+      "members": {
+        "andrew-ids": [
+          "bryung"
+        ],
+        "github-usernames": []
+      },
+      "admins": {
+        "andrew-ids": [
+          "bryung"
+        ],
+        "github-usernames": []
+      }
+    },
+    "cmuservice": {
+      "members": {
+        "andrew-ids": [
+          "benliu"
+        ],
+        "github-usernames": []
+      },
+      "admins": {
+        "andrew-ids": [
+          "benliu"
+        ],
+        "github-usernames": []
+      },
+      "website": "https://cmuservice.shop",
+      "server": "https://cmuservice.shop"
+    },
+    "collegecart": {
+      "members": {
+        "andrew-ids": [
+          "yingyiw",
+          "nayonk",
+          "rushabhj",
+          "rkurihar",
+          "mbatkhuu"
+        ],
+        "github-usernames": []
+      },
+      "admins": {
+        "andrew-ids": [
+          "yingyiw",
+          "nayonk",
+          "rushabhj"
+        ],
+        "github-usernames": []
+      },
+      "website": "https://collegecart.org",
+      "server": "https://collegecart.org"
+    },
+    "cmustudy": {
+      "members": [
+        "annadavi"
+      ],
+      "admins": [
+        "annadavi"
+      ],
+      "website": "https://study.scottylabs.org",
+      "server": "https://study.scottylabs.org"
     }
   }
 }
