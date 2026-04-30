@@ -28,12 +28,9 @@ class CodeownersSynchronizer(AbstractSynchronizer):
     @override
     def sync(self) -> None:
         print_section("Synchronizing CODEOWNERS file")
-
-        # Generate the new codeowners file
-        new_codeowners_file = self.generate_codeowners_file()
         create_or_update_github_file(
             self.CODEOWNERS_FILE_PATH,
-            new_codeowners_file,
+            self.generate_codeowners_file(),
             self.COMMIT_MESSAGE,
         )
 
