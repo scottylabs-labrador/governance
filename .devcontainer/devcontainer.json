@@ -24,7 +24,6 @@
         "charliermarsh.ruff",
         "redhat.vscode-yaml",
         "matangover.mypy",
-        "astral-sh.ty",
         "davidanson.vscode-markdownlint"
       ],
       "settings": {
