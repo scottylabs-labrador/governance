@@ -1,5 +1,6 @@
 locals {
-  inputs_data     = jsondecode(file("inputs.json"))
-  leadership_data = local.inputs_data["leadership"]
-  teams_data      = { for k, v in local.inputs_data : k => v if k != "leadership" }
+  inputs_data               = jsondecode(file("inputs.json"))
+  teams_data                = local.inputs_data["teams"]
+  leadership_team_data      = local.teams_data["leadership"]
+  non_leadership_teams_data = { for k, v in local.teams_data : k => v if k != "leadership" }
 }

@@ -14,7 +14,7 @@ variable "leadership_group_name" {
   type        = string
 }
 
-variable "inputs_data" {
+variable "teams_data" {
   description = "Teams data"
   type = map(object({
     members = object({

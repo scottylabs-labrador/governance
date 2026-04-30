@@ -28,7 +28,7 @@ module "keycloak" {
   slack_client_secret = var.slack_client_secret
 
   # Data
-  inputs_data = local.inputs_data
+  teams_data = local.teams_data
 }
 
 module "secrets" {
@@ -50,7 +50,7 @@ module "secrets" {
   leadership_group_name = var.leadership_group_name
 
   # Data
-  team_slugs = toset(keys(local.teams_data))
+  team_slugs = toset(keys(local.non_leadership_teams_data))
 }
 
 module "github" {

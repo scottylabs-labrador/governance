@@ -7,7 +7,7 @@ resource "keycloak_group" "teams" {
 # Team groups
 locals {
   # Leadership group is created in the `leadership.tf` file.
-  team_slugs = setsubtract(toset(keys(var.inputs_data)), toset(["leadership"]))
+  team_slugs = setsubtract(toset(keys(var.teams_data)), toset(["leadership"]))
 }
 
 resource "keycloak_group" "team_groups" {
@@ -29,14 +29,14 @@ resource "keycloak_group_memberships" "team_memberships" {
   for_each = local.team_slugs
   realm_id = keycloak_realm.labrador.id
   group_id = keycloak_group.team_groups[each.key].id
-  members  = var.inputs_data[each.key].members.andrew_ids
+  members  = var.teams_data[each.key].members.andrew_ids
 }
 
 resource "keycloak_group_memberships" "team_admins_memberships" {
   for_each = local.team_slugs
   realm_id = keycloak_realm.labrador.id
   group_id = keycloak_group.team_admins_groups[each.key].id
-  members  = var.inputs_data[each.key].admins.andrew_ids
+  members  = var.teams_data[each.key].admins.andrew_ids
 }
 
 # Team OIDC clients
@@ -47,10 +47,10 @@ locals {
     root_url    = "http://localhost:3000"
     redirects   = ["http://localhost/api/auth/oauth2/callback/keycloak"]
     web_origins = ["http://localhost"]
-  } if var.inputs_data[slug].create_oidc_clients }
+  } if var.teams_data[slug].create_oidc_clients }
 
   # Generate prod-ready clients
-  prod_clients = { for k, v in var.inputs_data : "${k}-prod" => {
+  prod_clients = { for k, v in var.teams_data : "${k}-prod" => {
     client_id   = "${k}-prod"
     root_url    = v.website
     redirects   = ["${v.server}/api/auth/oauth2/callback/keycloak"]
