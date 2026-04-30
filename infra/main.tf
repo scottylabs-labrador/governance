@@ -58,4 +58,8 @@ module "github" {
 
   # Credentials
   github_token = var.github_token
+
+  # Data
+  members_data = local.members_data
+  teams_data   = local.teams_data
 }

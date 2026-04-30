@@ -104,7 +104,7 @@ class InfraSynchronizer(AbstractSynchronizer):
 
         data["members"] = {}
         data["members"]["admins"] = self.teams["leadership"].leads
-        data["members"]["non-admins"] = list(
+        data["members"]["non_admins"] = list(
             self.members.keys() - self.teams["leadership"].leads,
         )
 
