@@ -1,26 +1,4 @@
 {
-  "governance": {
-    "members": {
-      "github_usernames": [
-        "Yuxiang-Huang"
-      ],
-      "andrew_ids": [
-        "yh4"
-      ]
-    },
-    "admins": {
-      "github_usernames": [
-        "Yuxiang-Huang"
-      ],
-      "andrew_ids": [
-        "yh4"
-      ]
-    },
-    "repos": [
-      "governance"
-    ],
-    "create_oidc_clients": false
-  },
   "leadership": {
     "members": {
       "github_usernames": [
@@ -37,86 +15,99 @@
       "andrew_ids": [
         "yh4"
       ]
-    },
-    "repos": [
-      "wiki"
-    ],
-    "create_oidc_clients": false
+    }
   },
-  "cmuresearch": {
-    "members": {
-      "andrew_ids": [
-        "bryung"
-      ],
-      "github_usernames": []
+  "teams": {
+    "governance": {
+      "members": {
+        "github_usernames": [
+          "Yuxiang-Huang"
+        ],
+        "andrew_ids": [
+          "yh4"
+        ]
+      },
+      "admins": {
+        "github_usernames": [
+          "Yuxiang-Huang"
+        ],
+        "andrew_ids": [
+          "yh4"
+        ]
+      },
+      "create_oidc_clients": false
     },
-    "admins": {
-      "andrew_ids": [
-        "bryung"
-      ],
-      "github_usernames": []
+    "cmuresearch": {
+      "members": {
+        "andrew_ids": [
+          "bryung"
+        ],
+        "github_usernames": []
+      },
+      "admins": {
+        "andrew_ids": [
+          "bryung"
+        ],
+        "github_usernames": []
+      },
+      "create_oidc_clients": true
     },
-    "repos": [],
-    "create_oidc_clients": true
-  },
-  "cmuservice": {
-    "members": {
-      "andrew_ids": [
-        "benliu"
-      ],
-      "github_usernames": []
+    "cmuservice": {
+      "members": {
+        "andrew_ids": [
+          "benliu"
+        ],
+        "github_usernames": []
+      },
+      "admins": {
+        "andrew_ids": [
+          "benliu"
+        ],
+        "github_usernames": []
+      },
+      "website": "https://cmuservice.shop",
+      "server": "https://cmuservice.shop",
+      "create_oidc_clients": true
     },
-    "admins": {
-      "andrew_ids": [
-        "benliu"
-      ],
-      "github_usernames": []
+    "collegecart": {
+      "members": {
+        "andrew_ids": [
+          "yingyiw",
+          "nayonk",
+          "rushabhj",
+          "rkurihar",
+          "mbatkhuu"
+        ],
+        "github_usernames": []
+      },
+      "admins": {
+        "andrew_ids": [
+          "yingyiw",
+          "nayonk",
+          "rushabhj"
+        ],
+        "github_usernames": []
+      },
+      "website": "https://collegecart.org",
+      "server": "https://collegecart.org",
+      "create_oidc_clients": true
     },
-    "repos": [],
-    "create_oidc_clients": true,
-    "website": "https://cmuservice.shop",
-    "server": "https://cmuservice.shop"
-  },
-  "collegecart": {
-    "members": {
-      "andrew_ids": [
-        "yingyiw",
-        "nayonk",
-        "rushabhj",
-        "rkurihar",
-        "mbatkhuu"
-      ],
-      "github_usernames": []
-    },
-    "admins": {
-      "andrew_ids": [
-        "yingyiw",
-        "nayonk",
-        "rushabhj"
-      ],
-      "github_usernames": []
-    },
-    "repos": [],
-    "create_oidc_clients": true,
-    "website": "https://collegecart.org",
-    "server": "https://collegecart.org"
-  },
-  "cmustudy": {
-    "members": {
-      "andrew_ids": [
-        "annadavi"
-      ],
-      "github_usernames": []
-    },
-    "admins": {
-      "andrew_ids": [
-        "annadavi"
-      ],
-      "github_usernames": []
-    },
-    "repos": [],
-    "create_oidc_clients": true,
-    "website": "https://study.scottylabs.org",
-    "server": "https://study.scottylabs.org"
+    "cmustudy": {
+      "members": {
+        "andrew_ids": [
+          "annadavi"
+        ],
+        "github_usernames": []
+      },
+      "admins": {
+        "andrew_ids": [
+          "annadavi"
+        ],
+        "github_usernames": []
+      },
+      "website": "https://study.scottylabs.org",
+      "server": "https://study.scottylabs.org",
+      "create_oidc_clients": true
+    }
   }
 }
