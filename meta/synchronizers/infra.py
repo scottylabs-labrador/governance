@@ -15,9 +15,6 @@ from meta.clients.github_client import (
     get_github_client,
 )
 from meta.logger import print_section
-from meta.models import (
-    Repo,  # noqa: TC001  # Pydantic needs `Repo` at runtime for `TeamData`.
-)
 
 from .abstract import AbstractSynchronizer
 
@@ -109,7 +106,7 @@ class TeamData(BaseModel):
     description: str
     members: TeamMembersData
     admins: TeamMembersData
-    repos: list[Repo]
+    repos: list[str]
     create_oidc_clients: bool
     website: str | None = None
     server: str | None = None
@@ -157,7 +154,7 @@ class InfraSynchronizer(AbstractSynchronizer):
                 "description": team.description,
                 "members": self._get_users(team.members),
                 "admins": self._get_users(team.leads),
-                "repos": [repo.model_dump() for repo in team.repos],
+                "repos": [repo.name for repo in team.repos],
                 "create_oidc_clients": team.create_oidc_clients,
                 "website": team.website,
                 "server": team.server,

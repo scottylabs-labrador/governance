@@ -31,10 +31,7 @@ variable "teams_data" {
       andrew_ids       = list(string)
       github_usernames = list(string)
     })
-    repos = list(object({
-      name        = string
-      description = string
-    }))
+    repos               = list(string)
     create_oidc_clients = bool
   }))
 }
