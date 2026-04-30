@@ -96,7 +96,7 @@ class TeamValidator:
         github_client = get_github_client()
         for repo in team.repos:
             try:
-                repo_name = f"{GITHUB_ORG_NAME}/{repo}"
+                repo_name = f"{GITHUB_ORG_NAME}/{repo.name}"
                 github_client.get_repo(repo_name)
             except GithubException as e:
                 if e.status == HTTPStatus.NOT_FOUND:
