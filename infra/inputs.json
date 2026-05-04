@@ -8,9 +8,9 @@
     ]
   },
   "teams": {
-    "governance": {
-      "name": "Governance",
-      "description": "The Governance maintainers team.",
+    "goldador": {
+      "name": "Goldador",
+      "description": "Responsible for governance in Labrador.",
       "members": {
         "github_usernames": [
           "Yuxiang-Huang"
@@ -28,7 +28,7 @@
         ]
       },
       "repos": [
-        "governance"
+        "goldador"
       ],
       "create_oidc_clients": false
     },
