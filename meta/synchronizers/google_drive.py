@@ -4,6 +4,7 @@ import os
 from typing import override
 
 from dotenv import load_dotenv
+from googleapiclient.discovery import build  # type: ignore[import-untyped]
 
 from meta.clients.google_client import GoogleClient
 from meta.logger import print_section
@@ -11,22 +12,25 @@ from meta.logger import print_section
 from .abstract import AbstractSynchronizer
 
 
-class GoogleSynchronizer(AbstractSynchronizer):
-    """Google synchronizer."""
+class GoogleDriveSynchronizer(AbstractSynchronizer):
+    """Google Drive synchronizer."""
 
     def __init__(self) -> None:
-        """Initialize the google synchronizer."""
+        """Initialize the Google Drive synchronizer."""
         super().__init__()
 
-        self.google_client = GoogleClient()
-
-        scottylabs_google_drive_id = os.getenv("SCOTTYLABS_GOOGLE_DRIVE_ID")
-        if not scottylabs_google_drive_id:
+        self.google_drive_id = os.getenv("SCOTTYLABS_GOOGLE_DRIVE_ID")
+        if not self.google_drive_id:
             msg = "SCOTTYLABS_GOOGLE_DRIVE_ID is not set"
             self.logger.critical(msg)
             raise RuntimeError(msg)
 
-        self.google_drive_id = scottylabs_google_drive_id
+        google_client = GoogleClient()
+        self.google_drive_service = build(
+            "drive",
+            "v3",
+            credentials=google_client.creds,
+        )
 
     @override
     def sync(self) -> None:
@@ -42,7 +46,7 @@ class GoogleSynchronizer(AbstractSynchronizer):
 
         while True:
             response = (
-                self.google_client.drive_service.permissions()
+                self.google_drive_service.permissions()
                 .list(
                     fileId=self.google_drive_id,
                     fields="nextPageToken, permissions(emailAddress,role)",
@@ -67,5 +71,5 @@ class GoogleSynchronizer(AbstractSynchronizer):
 def main() -> None:
     """CLI entry point."""
     load_dotenv()
-    google_synchronizer = GoogleSynchronizer()
-    google_synchronizer.sync()
+    google_drive_synchronizer = GoogleDriveSynchronizer()
+    google_drive_synchronizer.sync()

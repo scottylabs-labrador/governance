@@ -9,15 +9,15 @@ from google.oauth2.credentials import Credentials
 # The type checking performance after installing the stubs is so bad it is faster to
 # develope without them...
 # https://github.com/henribru/google-api-python-client-stubs?tab=readme-ov-file#performance
-from googleapiclient.discovery import build  # type: ignore[import-untyped]
-
 from meta.logger import get_app_logger
 
-_DRIVE_SCOPES: tuple[str, ...] = ("https://www.googleapis.com/auth/drive.readonly",)
+_GROUP_SCOPE: tuple[str, ...] = (
+    "https://www.googleapis.com/auth/admin.directory.group.member",
+)
 
 
 class GoogleClient:
-    """Google Drive client."""
+    """Google client."""
 
     DRIVE_ROLE = Literal["writer", "fileOrganizer"]
     DRIVE_ROLE_TO_ROLE_NAME: ClassVar[dict[DRIVE_ROLE, str]] = {
@@ -28,7 +28,7 @@ class GoogleClient:
     def __init__(
         self,
     ) -> None:
-        """Initialize the Google Drive client from OAuth user credentials."""
+        """Initialize the Google client from OAuth user credentials."""
         logger = get_app_logger()
 
         client_id = os.getenv("GOOGLE_CLIENT_ID")
@@ -56,20 +56,18 @@ class GoogleClient:
             "type": "authorized_user",
         }
 
-        creds = Credentials.from_authorized_user_info(info, scopes=_DRIVE_SCOPES)  # type: ignore[no-untyped-call]
-        if creds is None:
+        self.creds = Credentials.from_authorized_user_info(info, scopes=_GROUP_SCOPE)  # type: ignore[no-untyped-call]
+        if self.creds is None:
             msg = "Could not build OAuth user credentials from env vars"
             logger.critical(msg)
             raise RuntimeError(msg)
 
-        if not creds.valid:
-            if creds.expired and creds.refresh_token:
-                creds.refresh(Request())
+        if not self.creds.valid:
+            if self.creds.expired and self.creds.refresh_token:
+                self.creds.refresh(Request())
             else:
                 msg = (
                     "Google credentials are invalid or expired and cannot be refreshed"
                 )
                 logger.critical(msg)
                 raise RuntimeError(msg)
-
-        self.drive_service = build("drive", "v3", credentials=creds)
