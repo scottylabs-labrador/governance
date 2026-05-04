@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 
 from meta.clients.github_client import create_or_update_github_file
 from meta.logger import print_section
-from meta.synchronizers.abstract import AbstractSynchronizer
+
+from .abstract import AbstractSynchronizer
 
 if TYPE_CHECKING:
     from meta.models import Team
