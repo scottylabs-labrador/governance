@@ -1,9 +1,9 @@
 {
-  "name": "Governance",
+  "name": "Goldador",
   "image": "astral/uv:python3.12-bookworm-slim",
   "runArgs": [
     "--name",
-    "governance"
+    "goldador"
   ],
   "features": {
     "git": {
@@ -32,8 +32,8 @@
         "editor.codeActionsOnSave": {
           "source.fixAll": "explicit"
         },
-        "python.defaultInterpreterPath": "/workspaces/governance/.venv/bin/python3",
-        "mypy.dmypyExecutable": "/workspaces/governance/.venv/bin/dmypy",
+        "python.defaultInterpreterPath": "/workspaces/goldador/.venv/bin/python3",
+        "mypy.dmypyExecutable": "/workspaces/goldador/.venv/bin/dmypy",
         "[json]": {
           "editor.defaultFormatter": "vscode.json-language-features"
         },

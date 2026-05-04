@@ -1,4 +1,4 @@
-"""Loaders for the governance validator."""
+"""Loaders for the validator."""
 
 from .members import load_members
 from .teams import load_teams

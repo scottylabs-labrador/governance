@@ -1,4 +1,4 @@
-"""Governance validator entry point."""
+"""Validator entry point."""
 
 from __future__ import annotations
 

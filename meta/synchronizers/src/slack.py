@@ -51,7 +51,7 @@ class SlackSynchronizer(AbstractSynchronizer):
         self.logger.debug("Found %d Slack channels\n", len(self.channels))
 
         for team_slug, team in self.teams.items():
-            # Leadership Slack channel is private and not managed by Governance
+            # Leadership Slack channel is private and not managed by Goldador
             if team_slug == "leadership":
                 continue
             self.sync_team(team_slug, team)

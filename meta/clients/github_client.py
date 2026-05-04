@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from github.Repository import Repository
 
 
-REPO_NAME = "scottylabs-labrador/Governance"
+REPO_NAME = "scottylabs-labrador/Goldador"
 
 
 @lru_cache(maxsize=1)

@@ -1,4 +1,4 @@
-"""Tests for the governance validator package."""
+"""Tests for the validator package."""
 
 import subprocess
 

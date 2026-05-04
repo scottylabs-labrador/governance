@@ -40,14 +40,14 @@ class CodeownersSynchronizer(AbstractSynchronizer):
         lines = [f"# Auto-generated CODEOWNERS file from {self.FILE_PATH}"]
         lines.append("")
 
-        if "governance" not in self.teams:
-            msg = "Governance team not found."
+        if "goldador" not in self.teams:
+            msg = "Goldador team not found."
             self.logger.critical(msg)
             raise ValueError(msg)
 
-        governance_team = self.teams["governance"]
-        lines.append("# Default owners are the Governance team leads")
-        lines.append(f"*{self._get_team_leads_pattern(governance_team)}")
+        goldador_team = self.teams["goldador"]
+        lines.append("# Default owners are the Goldador team leads")
+        lines.append(f"*{self._get_team_leads_pattern(goldador_team)}")
         lines.append("")
 
         if "leadership" not in self.teams:

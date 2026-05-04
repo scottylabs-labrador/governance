@@ -240,6 +240,83 @@ wheels = [
 ]
 
 [[package]]
+name = "goldador"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "colorama" },
+    { name = "dotenv" },
+    { name = "pydantic" },
+]
+
+[package.dev-dependencies]
+codeowners-synchronizer = [
+    { name = "pygithub" },
+]
+dev = [
+    { name = "mypy" },
+    { name = "ruff" },
+    { name = "types-colorama" },
+]
+google-synchronizer = [
+    { name = "google-api-python-client" },
+    { name = "google-auth-httplib2" },
+    { name = "google-auth-oauthlib" },
+]
+infra-synchronizer = [
+    { name = "pygithub" },
+]
+slack-synchronizer = [
+    { name = "certifi" },
+    { name = "python-keycloak" },
+    { name = "slack-sdk" },
+]
+test = [
+    { name = "pytest" },
+    { name = "pytest-cov" },
+]
+validator = [
+    { name = "httpx" },
+    { name = "pygithub" },
+    { name = "python-keycloak" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "colorama", specifier = ">=0.4.6" },
+    { name = "dotenv", specifier = ">=0.9.9" },
+    { name = "pydantic", specifier = ">=2.12.5" },
+]
+
+[package.metadata.requires-dev]
+codeowners-synchronizer = [{ name = "pygithub", specifier = ">=2.9.0" }]
+dev = [
+    { name = "mypy", specifier = ">=1.19.1" },
+    { name = "ruff", specifier = ">=0.15.5" },
+    { name = "types-colorama", specifier = ">=0.4.15.20250801" },
+]
+google-synchronizer = [
+    { name = "google-api-python-client", specifier = ">=2.187.0" },
+    { name = "google-auth-httplib2", specifier = ">=0.3.0" },
+    { name = "google-auth-oauthlib", specifier = ">=1.2.3" },
+]
+infra-synchronizer = [{ name = "pygithub", specifier = ">=2.9.0" }]
+slack-synchronizer = [
+    { name = "certifi", specifier = ">=2026.4.22" },
+    { name = "python-keycloak", specifier = ">=7.1.0" },
+    { name = "slack-sdk", specifier = ">=3.41.0" },
+]
+test = [
+    { name = "pytest", specifier = ">=8.3.5" },
+    { name = "pytest-cov", specifier = ">=7.1.0" },
+]
+validator = [
+    { name = "httpx", specifier = ">=0.28.1" },
+    { name = "pygithub", specifier = ">=2.9.0" },
+    { name = "python-keycloak", specifier = ">=7.1.0" },
+]
+
+[[package]]
 name = "google-api-core"
 version = "2.30.3"
 source = { registry = "https://pypi.org/simple" }
@@ -320,83 +397,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/20/18/a746c8344152d368a5aac738d4c857012f2c5d1fd2eac7e17b647a7861bd/googleapis_common_protos-1.74.0.tar.gz", hash = "sha256:57971e4eeeba6aad1163c1f0fc88543f965bb49129b8bb55b2b7b26ecab084f1", size = 151254, upload-time = "2026-04-02T21:23:26.679Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b6/b0/be5d3329badb9230b765de6eea66b73abd5944bdeb5afb3562ddcd80ae84/googleapis_common_protos-1.74.0-py3-none-any.whl", hash = "sha256:702216f78610bb510e3f12ac3cafd281b7ac45cc5d86e90ad87e4d301a3426b5", size = 300743, upload-time = "2026-04-02T21:22:49.108Z" },
-]
-
-[[package]]
-name = "governance"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "colorama" },
-    { name = "dotenv" },
-    { name = "pydantic" },
-]
-
-[package.dev-dependencies]
-codeowners-synchronizer = [
-    { name = "pygithub" },
-]
-dev = [
-    { name = "mypy" },
-    { name = "ruff" },
-    { name = "types-colorama" },
-]
-google-synchronizer = [
-    { name = "google-api-python-client" },
-    { name = "google-auth-httplib2" },
-    { name = "google-auth-oauthlib" },
-]
-infra-synchronizer = [
-    { name = "pygithub" },
-]
-slack-synchronizer = [
-    { name = "certifi" },
-    { name = "python-keycloak" },
-    { name = "slack-sdk" },
-]
-test = [
-    { name = "pytest" },
-    { name = "pytest-cov" },
-]
-validator = [
-    { name = "httpx" },
-    { name = "pygithub" },
-    { name = "python-keycloak" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "colorama", specifier = ">=0.4.6" },
-    { name = "dotenv", specifier = ">=0.9.9" },
-    { name = "pydantic", specifier = ">=2.12.5" },
-]
-
-[package.metadata.requires-dev]
-codeowners-synchronizer = [{ name = "pygithub", specifier = ">=2.9.0" }]
-dev = [
-    { name = "mypy", specifier = ">=1.19.1" },
-    { name = "ruff", specifier = ">=0.15.5" },
-    { name = "types-colorama", specifier = ">=0.4.15.20250801" },
-]
-google-synchronizer = [
-    { name = "google-api-python-client", specifier = ">=2.187.0" },
-    { name = "google-auth-httplib2", specifier = ">=0.3.0" },
-    { name = "google-auth-oauthlib", specifier = ">=1.2.3" },
-]
-infra-synchronizer = [{ name = "pygithub", specifier = ">=2.9.0" }]
-slack-synchronizer = [
-    { name = "certifi", specifier = ">=2026.4.22" },
-    { name = "python-keycloak", specifier = ">=7.1.0" },
-    { name = "slack-sdk", specifier = ">=3.41.0" },
-]
-test = [
-    { name = "pytest", specifier = ">=8.3.5" },
-    { name = "pytest-cov", specifier = ">=7.1.0" },
-]
-validator = [
-    { name = "httpx", specifier = ">=0.28.1" },
-    { name = "pygithub", specifier = ">=2.9.0" },
-    { name = "python-keycloak", specifier = ">=7.1.0" },
 ]
 
 [[package]]

@@ -1,1 +1,1 @@
-"""Synchronizers for the governance repository."""
+"""Synchronizers."""
