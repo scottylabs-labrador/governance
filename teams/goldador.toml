@@ -1,9 +1,9 @@
-name = "Governance"
-description = "The Governance maintainers team."
+name = "Goldador"
+description = "Responsible for governance in Labrador."
 create-oidc-clients = false
 
 [[repos]]
-name = "governance"
+name = "goldador"
 description = "Definition and automation of ScottyLabs Labrador's governance model"
 
 [[membership]]
